@@ -5,7 +5,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "target": "esnext"
+    "target": "es5"
   },
   "files": [
     "./lib/index.ts"

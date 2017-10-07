@@ -11,6 +11,10 @@ export default class F {
         this.state = {}
     }
 
+    setState() {
+
+    }
+
     public renderTo(entry: HTMLElement) {
         render(entry, this.render())
     }
