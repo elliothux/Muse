@@ -5,7 +5,7 @@ module.exports = {
     devtool: 'inline-source-map',
     entry: {
         index: path.join(__dirname, './lib/index.ts'),
-        test: path.join(__dirname, './test/index.tsx'),
+        test: path.join(__dirname, './test/index.js'),
     },
     output: {
         path: path.join(__dirname, './dist/'),
