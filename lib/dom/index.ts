@@ -16,9 +16,7 @@ function jsx2virtualDom(jsxObject) {
 }
 
 
-function render(entry: HTMLElement, C) {
-    const jsxObject = (new C()).render();
-    console.log(jsx2virtualDom(jsxObject));
+function render(entry: HTMLElement, jsxObject) {
     const content = createElement(jsx2virtualDom(jsxObject));
     console.log(content);
     entry.appendChild(content)

@@ -1,12 +1,17 @@
 
+import { render } from '../dom';
+
+
+
 export default class F {
-    state: {};
-    render: () => object;
+    public state: object;
+    public render: () => object;
 
     constructor() {
-        this.state = {
-            name: 'Joe',
-            age: 10
-        }
+        this.state = {}
+    }
+
+    public renderTo(entry: HTMLElement) {
+        render(entry, this.render())
     }
 }

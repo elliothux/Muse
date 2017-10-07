@@ -4,8 +4,9 @@ import createElement from 'virtual-dom/create-element';
 
 
 
-class C {
+class App extends F {
     constructor() {
+        super();
         this.state = {
             name: 'Joe',
             age: 10
@@ -21,6 +22,27 @@ class C {
 
 
 window.onload = function () {
-    const entry = document.getElementById('root');
-    FDom.render(entry, C);
+    const app = new App();
+    // app.renderTo(document.getElementById('root'));
 };
+
+// class A {
+//     constructor() {
+//         this.a = 1;
+//         this.b = 2;
+//     }
+//
+//     hello() {
+//         console.log(`a is ${this.a}, b is ${this.b}`)
+//     }
+// }
+//
+// class B extends A {
+//     constructor() {
+//         super();
+//         this.a = 3;
+//     }
+// }
+//
+//
+// (new B()).hello()
