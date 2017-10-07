@@ -2,6 +2,7 @@
 const path = require('path');
 
 module.exports = {
+    devtool: 'inline-source-map',
     entry: {
         index: path.join(__dirname, './lib/index.ts'),
         test: path.join(__dirname, './test/index.tsx'),
@@ -11,26 +12,16 @@ module.exports = {
         filename: '[name].build.js',
         publicPath: '/assets/'
     },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
     module: {
         loaders: [
-            {
-                test: /\.ts/,
-                loader: 'ts-loader',
-                exclude: /node_modules\/(?!(stardust))/
-            },
+            { test: /\.tsx?$/, loader: 'ts-loader' },
             {
                 test: /\.js/,
                 loader: 'babel-loader',
-                exclude: /node_modules\/(?!(stardust))/,
-                query: {
-                    "presets": [
-                        ["env", {
-                            "targets": {
-                                "browsers": ["last 2 versions", "safari >= 7"]
-                            }
-                        }]
-                    ]
-                }
+                exclude: /node_modules\/(?!(stardust))/
             },
         ],
     },
