@@ -1,5 +1,7 @@
 
 import { F, FDom } from '../lib';
+import createElement from 'virtual-dom/create-element';
+
 
 
 class C {
@@ -19,7 +21,6 @@ class C {
 
 
 window.onload = function () {
-    const f = new C();
-    const root = document.getElementById('root');
-    FDom.render(root, f)
+    const entry = document.getElementById('root');
+    FDom.render(entry, C);
 };
