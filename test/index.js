@@ -1,6 +1,5 @@
 
-import { F, FDom } from '../lib';
-import createElement from 'virtual-dom/create-element';
+import { F } from '../lib';
 
 
 
@@ -24,11 +23,11 @@ class App extends F {
         <div>
             <h3>My name is {this.state.name}</h3>
             <h4>And I'm {this.state.age} years old</h4>
-            <button onclick={this.handleClick}>Click</button>
+            <button onClick={this.handleClick}>Click</button>
         </div>
     )}
 }
 
 
-const app = new App();
-app.renderTo(document.getElementById('root'));
+const app = (new App()).renderTo(document.getElementById('root'));
+console.log(app);

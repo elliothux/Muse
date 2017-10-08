@@ -17,6 +17,7 @@ export default class F {
     setState(arg) {
         this.state = Object.assign(this.state, arg);
         this.diffRender();
+        return this;
     }
 
     get vTree() {
@@ -27,6 +28,7 @@ export default class F {
         this.entry = entry;
         this.preVTree = this.vTree;
         this.realDom = dom.render(this.entry, this.vTree);
+        return this;
     }
 
     private diffRender() {
@@ -34,15 +36,7 @@ export default class F {
             this.realDom,
             this.preVTree,
             this.vTree
-        )
+        );
+        return this;
     }
-
-    // private renderToDom() {
-    //     [this.vTree, this.realDom] = render(
-    //         this.entry,
-    //         this.realDom,
-    //         this.vTree,
-    //         jsx2vTree(this.render())
-    //     )
-    // }
 }

@@ -5,14 +5,10 @@ import { h, create, diff, patch } from 'virtual-dom';
 
 function jsx2vTree(jsxTree) {
     if (typeof jsxTree !== 'object') return jsxTree;
-    let children = jsxTree.children;
+    let { elementName, attributes, children } = jsxTree;
     if (Array.isArray(children))
         children = jsxTree.children.map(c => jsx2vTree(c));
-    return h(
-        jsxTree.elementName,
-        jsxTree.attributes,
-        children
-    )
+    return h(elementName, attributes, children)
 }
 
 
