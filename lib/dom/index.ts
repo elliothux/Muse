@@ -1,5 +1,5 @@
 
-import { h, create as createElement } from 'virtual-dom';
+import { h, create, diff } from 'virtual-dom';
 
 
 
@@ -17,10 +17,13 @@ function jsx2virtualDom(jsxObject) {
 
 
 function render(entry: HTMLElement, jsxObject) {
-    const content = createElement(jsx2virtualDom(jsxObject));
-    console.log(content);
-    entry.appendChild(content)
+    const content = create(jsx2virtualDom(jsxObject));
+    console.log(jsxObject);
+    Array.from(entry.children).map(c => entry.removeChild(c));
+    entry.appendChild(content);
+    return content;
 }
+
 
 
 export {
