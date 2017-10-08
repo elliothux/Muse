@@ -1,5 +1,6 @@
 
 import { h, create, diff } from 'virtual-dom';
+import parser from './parser';
 
 
 
@@ -27,5 +28,6 @@ function render(entry: HTMLElement, jsxObject) {
 
 
 export {
-    render
+    render,
+    parser
 }

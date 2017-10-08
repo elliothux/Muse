@@ -11,6 +11,7 @@ class App extends F {
             name: 'Joe',
             age: 10
         };
+        this.handleClick = this.handleClick.bind(this);
         // setInterval(() => {
         //     this.setState({
         //         age: this.state.age + 1
@@ -29,7 +30,7 @@ class App extends F {
         <div>
             <h3>My name is {this.state.name}</h3>
             <h4>And I'm {this.state.age} years old</h4>
-            <button onClick={this.handleClick}>Click</button>
+            <button onclick={this.handleClick}>Click</button>
         </div>
     )}
 }
