@@ -17,11 +17,14 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.tsx?$/, loader: 'ts-loader' },
+            {
+                test: /\.tsx?$/,
+                loader: 'ts-loader'
+            },
             {
                 test: /\.js/,
                 loader: 'babel-loader',
-                exclude: /node_modules\/(?!(stardust))/
+                exclude: /node_modules\/(?!(stardust))/,
             },
         ],
     },

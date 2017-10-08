@@ -12,6 +12,13 @@ class App extends F {
             color: 'red'
         };
         this.handleClick = this.handleClick.bind(this);
+        this.handleName = this.handleName.bind(this);
+    }
+
+    handleName(e) {
+        this.setState({
+            name: e.target.value
+        })
     }
 
     handleClick() {
@@ -24,6 +31,7 @@ class App extends F {
         <div>
             <h3>My name is {this.state.name}</h3>
             <h4>And I'm {this.state.age} years old</h4>
+            <input type="text" value={this.state.name} onInput={this.handleName}/>
             <button onClick={this.handleClick}>Click</button>
         </div>
     )}
