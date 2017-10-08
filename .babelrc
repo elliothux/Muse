@@ -8,6 +8,7 @@
     }]
   ],
   "plugins": [
-    "transform-jsx"
+    "transform-jsx",
+    "./plugins/f.js"
   ]
 }
