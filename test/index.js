@@ -12,15 +12,9 @@ class App extends F {
             age: 10
         };
         this.handleClick = this.handleClick.bind(this);
-        // setInterval(() => {
-        //     this.setState({
-        //         age: this.state.age + 1
-        //     })
-        // }, 5000)
     }
 
     handleClick() {
-        console.log('c');
         this.setState({
             age: this.state.age + 1
         })
@@ -36,7 +30,5 @@ class App extends F {
 }
 
 
-window.onload = function () {
-    const app = new App();
-    app.renderTo(document.getElementById('root'));
-};
+const app = new App();
+app.renderTo(document.getElementById('root'));

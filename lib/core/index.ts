@@ -1,5 +1,5 @@
 
-import { render } from '../dom';
+import * as dom from '../dom';
 
 
 
@@ -7,22 +7,42 @@ export default class F {
     public state: object;
     public render: () => object;
     private entry: HTMLElement;
+    private realDom: Element;
+    private preVTree: object;
 
     constructor() {
-        this.state = {}
+        this.state = {};
     }
 
     setState(arg) {
         this.state = Object.assign(this.state, arg);
-        this.renderToDom();
+        this.diffRender();
+    }
+
+    get vTree() {
+        return dom.jsx2vTree(this.render());
     }
 
     public renderTo(entry: HTMLElement) {
         this.entry = entry;
-        this.renderToDom();
+        this.preVTree = this.vTree;
+        this.realDom = dom.render(this.entry, this.vTree);
     }
 
-    private renderToDom() {
-        render(this.entry, this.render())
+    private diffRender() {
+        this.preVTree = dom.diffRender(
+            this.realDom,
+            this.preVTree,
+            this.vTree
+        )
     }
+
+    // private renderToDom() {
+    //     [this.vTree, this.realDom] = render(
+    //         this.entry,
+    //         this.realDom,
+    //         this.vTree,
+    //         jsx2vTree(this.render())
+    //     )
+    // }
 }

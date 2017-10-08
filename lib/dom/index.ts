@@ -1,33 +1,37 @@
 
-import { h, create, diff } from 'virtual-dom';
-import parser from './parser';
+import { h, create, diff, patch } from 'virtual-dom';
 
 
 
-function jsx2virtualDom(jsxObject) {
-    if (typeof jsxObject !== 'object') return jsxObject;
-    let children = jsxObject.children;
+function jsx2vTree(jsxTree) {
+    if (typeof jsxTree !== 'object') return jsxTree;
+    let children = jsxTree.children;
     if (Array.isArray(children))
-        children = jsxObject.children.map(c => jsx2virtualDom(c));
+        children = jsxTree.children.map(c => jsx2vTree(c));
     return h(
-        jsxObject.elementName,
-        jsxObject.attributes,
+        jsxTree.elementName,
+        jsxTree.attributes,
         children
     )
 }
 
 
-function render(entry: HTMLElement, jsxObject) {
-    const content = create(jsx2virtualDom(jsxObject));
-    console.log(jsxObject);
-    Array.from(entry.children).map(c => entry.removeChild(c));
-    entry.appendChild(content);
-    return content;
+function render(entry: HTMLElement, vTree): Element {
+    const realDom = create(vTree);
+    entry.appendChild(realDom);
+    return realDom;
 }
 
 
+function diffRender(realDom: Element, preTree, newTree) {
+    const patches = diff(preTree, newTree);
+    patch(realDom, patches);
+    return newTree
+}
+
 
 export {
+    jsx2vTree,
     render,
-    parser
+    diffRender
 }
