@@ -8,7 +8,8 @@ class App extends F {
         super();
         this.state = {
             name: 'Joe',
-            age: 10
+            age: 10,
+            color: 'red'
         };
         this.handleClick = this.handleClick.bind(this);
     }

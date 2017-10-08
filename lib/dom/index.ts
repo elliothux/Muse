@@ -8,7 +8,8 @@ function jsx2vTree(jsxTree) {
     let { elementName, attributes, children } = jsxTree;
     if (Array.isArray(children))
         children = jsxTree.children.map(c => jsx2vTree(c));
-    return h(elementName, attributes, children)
+    // console.log(attributes);
+    return h(elementName, handleAttr(attributes), children)
 }
 
 
@@ -23,6 +24,18 @@ function diffRender(realDom: Element, preTree, newTree) {
     const patches = diff(preTree, newTree);
     patch(realDom, patches);
     return newTree
+}
+
+
+function handleAttr(attr: object): object {
+    Object.keys(attr)
+        .filter(key => attr.hasOwnProperty(key))
+        .filter(key => /on[A-Z]([a-z]|[A-Z])+/.test(key))
+        .map(key => {
+            attr[key.toLowerCase()] = attr[key];
+            delete attr[key];
+        });
+    return attr
 }
 
 
