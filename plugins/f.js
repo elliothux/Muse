@@ -1,30 +1,18 @@
 
+const colors = require('colors/safe');
 
 module.exports = function (babel) {
-    const visitor =  {
-        JSXElement (nodePath, state) {
-            const { attrName } = this.opts;
-            console.log(nodePath);
-            // const bindingValue = getAndRemoveBindingAttr(nodePath.node, attrName)
-            //
-            // if (!bindingValue) return
-            //
-            // const extracted = extractBindingValue(bindingValue, attrName)
-            //
-            // let wrappedExpr = types.callExpression(
-            //     state.addImport('babel-plugin-react-binding/lib/runtime', 'default', 'binding'),
-            //     [nodePath.node, bindingValue.expression, ...extracted],
-            // )
-            //
-            // if (nodePath.parent.type === 'JSXElement') {
-            //     wrappedExpr = types.jSXExpressionContainer(wrappedExpr)
-            // }
-            //
-            // nodePath.replaceWith(wrappedExpr)
-        }
-    };
     return {
-        inherits: require('babel-plugin-transform-jsx'),
-        visitor,
+        visitor: {
+            // JSXIdentifier: function(path) {
+            //     console.log(colors.red.underline("Visiting: " + path.node.name));
+            // },
+            // JSXAttribute: function(path) {
+            //     console.log(colors.blue.underline("Visiting: " + path.node.name));
+            // },
+            JSXElement: function(path, state) {
+                console.log(colors.red.bold.underline("Visiting: " + path));
+            }
+        }
     }
 };
