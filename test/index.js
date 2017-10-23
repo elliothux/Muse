@@ -2,9 +2,6 @@
 import { F } from '../lib';
 
 
-
-
-
 class App2 extends F {
     constructor() {
         super();
@@ -16,7 +13,8 @@ class App2 extends F {
     render() { return(
         <input
             type="number"
-            model={this.state.age}
+            value={this.state.age}
+            onChange={(e) => {console.log(e.target.value)}}
             placeholder="Hello"
         />
     )}

@@ -26,11 +26,13 @@ module.exports = function (babel) {
         visitor: {
             JSXElement: function(path, state) {
                 const { attributes } = path.node.openingElement;
-                log(attributes)
-                // log(path.node.openingElement);
-                // log(this.opts)
-                // const { attrName } = this.opts;
-            }
+                attributes.forEach(attr => {
+                    if (attr.name.name === 'model') {
+                        attr.name.name = 'value';
+                        console.log(attr)
+                    }
+                })
+            },
         }
     }
 };
