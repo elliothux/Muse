@@ -28,6 +28,16 @@ function objStr2AST(objStr, t) {
     }))
 }
 
+function objExpression2Str(expression) {
+    let objStr;
+    switch (expression.object.type) {
+        case 'MemberExpression': objStr = objExpression2Str(expression.object); break;
+        case 'Identifier': objStr = expression.object.name; break;
+        case 'ThisExpression': objStr = 'this'; break;
+    }
+    return objStr + '.' + expression.property.name;
+}
+
 
 module.exports = function ({types: t}) {
     let attrName = 'model';
@@ -35,22 +45,28 @@ module.exports = function ({types: t}) {
     const JSXAttributeVisitor = function (node) {
         if (node.node.name.name === attrName) {
             node.node.name.name = 'value';
-            node.insertAfter(t.JSXAttribute(
-                t.jSXIdentifier('onInput'),
-                t.JSXExpressionContainer(
-                    t.arrowFunctionExpression(
-                        [t.identifier('e')],
-                        t.callExpression(
-                            t.memberExpression(
-                                t.thisExpression(),
-                                t.identifier('setState')
-                            ),
-                            [t.objectExpression(
-                                [objPropStr2AST('age', 'e.target.value', t)]
-                            )]
+
+            let modelStr = objExpression2Str(node.node.value.expression).split('.');
+            if (modelStr[0] === 'this' && modelStr[1] === 'state') {
+                modelStr = modelStr.slice(2, modelStr.length).join('.');
+                node.insertAfter(t.JSXAttribute(
+                    t.jSXIdentifier('onInput'),
+                    t.JSXExpressionContainer(
+                        t.arrowFunctionExpression(
+                            [t.identifier('e')],
+                            t.callExpression(
+                                t.memberExpression(
+                                    t.thisExpression(),
+                                    t.identifier('setState')
+                                ),
+                                [t.objectExpression(
+                                    [objPropStr2AST(modelStr, 'e.target.value', t)]
+                                )]
+                            )
                         )
-                    ))
-            ));
+                    )
+                ));
+            }
         }
     };
 

@@ -12,7 +12,7 @@ class App2 extends F {
 
     render() { return(
         <div>
-            <h1>Test</h1>
+            <h1>I'm {this.state.age} years old.</h1>
             <input
                 type="number"
                 model={this.state.age}
