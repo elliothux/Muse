@@ -14,7 +14,7 @@ render(
   <input
     type="number"
     model={state.age.t}
-    onInput={(e) => {this.setState({ age: e.target.value })}}
+    onInput={() => {console.log(this.state.age)}}
     placeholder="Hello"
   />
 </div>

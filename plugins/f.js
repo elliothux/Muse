@@ -1,5 +1,3 @@
-
-
 function objValueStr2AST(objValueStr, t) {
     const values = objValueStr.split('.');
     if (values.length === 1)
@@ -17,23 +15,18 @@ function objPropStr2AST(key, value, t) {
     )
 }
 
-function objStr2AST(objStr, t) {
-    const props = objStr.replace(/(\{\})/g, '').split(';');
-    return t.objectExpression(props.map(p => {
-        const [key, value] = p.split(':').map(p => p.trim());
-        return t.objectProperty(
-            t.identifier(key),
-            objValueStr2AST(value, t)
-        )
-    }))
-}
-
 function objExpression2Str(expression) {
     let objStr;
     switch (expression.object.type) {
-        case 'MemberExpression': objStr = objExpression2Str(expression.object); break;
-        case 'Identifier': objStr = expression.object.name; break;
-        case 'ThisExpression': objStr = 'this'; break;
+        case 'MemberExpression':
+            objStr = objExpression2Str(expression.object);
+            break;
+        case 'Identifier':
+            objStr = expression.object.name;
+            break;
+        case 'ThisExpression':
+            objStr = 'this';
+            break;
     }
     return objStr + '.' + expression.property.name;
 }
@@ -44,11 +37,40 @@ module.exports = function ({types: t}) {
 
     const JSXAttributeVisitor = function (node) {
         if (node.node.name.name === attrName) {
-            node.node.name.name = 'value';
-
             let modelStr = objExpression2Str(node.node.value.expression).split('.');
-            if (modelStr[0] === 'this' && modelStr[1] === 'state') {
-                modelStr = modelStr.slice(2, modelStr.length).join('.');
+            if (modelStr[0] !== 'this' || modelStr[1] !== 'state') return;
+            modelStr = modelStr.slice(2, modelStr.length).join('.');
+
+            node.node.name.name = 'value';
+            const onInput = node.parent.attributes.filter(attr => attr.name.name === 'onInput')[0];
+            if (onInput) {
+                const callee = onInput.value.expression;
+                // console.log(onInput.value);
+                onInput.value = t.JSXExpressionContainer(
+                    t.arrowFunctionExpression(
+                        [t.identifier('e')],
+                        t.blockStatement([
+                            t.expressionStatement(
+                                t.callExpression(
+                                    t.memberExpression(
+                                        t.thisExpression(),
+                                        t.identifier('setState')
+                                    ),
+                                    [t.objectExpression(
+                                        [objPropStr2AST(modelStr, 'e.target.value', t)]
+                                    )]
+                                )
+                            ),
+                            t.expressionStatement(
+                                t.callExpression(
+                                    callee,
+                                    [t.identifier('e')]
+                                )
+                            )
+                        ])
+                    )
+                )
+            } else {
                 node.insertAfter(t.JSXAttribute(
                     t.jSXIdentifier('onInput'),
                     t.JSXExpressionContainer(
