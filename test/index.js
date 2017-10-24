@@ -11,12 +11,14 @@ class App2 extends F {
     }
 
     render() { return(
-        <input
-            type="number"
-            value={this.state.age}
-            onChange={(e) => {console.log(e.target.value)}}
-            placeholder="Hello"
-        />
+        <div>
+            <h1>Test</h1>
+            <input
+                type="number"
+                model={this.state.age}
+                placeholder="Hello"
+            />
+        </div>
     )}
 }
 

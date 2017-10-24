@@ -8,15 +8,19 @@ const state = {
   }
 };
 
-
 render(
+<div>
+  <h1>Hello</h1>
   <input
     type="number"
     model={state.age.t}
+    onInput={(e) => {this.setState({ age: e.target.value })}}
     placeholder="Hello"
   />
+</div>
 )
 `;
+
 const result = babel.transform(code, {
     plugins: [
         ["../plugins/f.js", {
