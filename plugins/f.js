@@ -41,6 +41,16 @@ module.exports = function ({types: t}) {
             if (modelStr[0] !== 'this' || modelStr[1] !== 'state') return;
             modelStr = modelStr.slice(2, modelStr.length).join('.');
 
+            const setStateCall = t.callExpression(
+                t.memberExpression(
+                    t.thisExpression(),
+                    t.identifier('setState')
+                ),
+                [t.objectExpression(
+                    [objPropStr2AST(modelStr, 'e.target.value', t)]
+                )]
+            );
+
             node.node.name.name = 'value';
             const onInput = node.parent.attributes.filter(attr => attr.name.name === 'onInput')[0];
             if (onInput) {
@@ -49,17 +59,7 @@ module.exports = function ({types: t}) {
                     t.arrowFunctionExpression(
                         [t.identifier('e')],
                         t.blockStatement([
-                            t.expressionStatement(
-                                t.callExpression(
-                                    t.memberExpression(
-                                        t.thisExpression(),
-                                        t.identifier('setState')
-                                    ),
-                                    [t.objectExpression(
-                                        [objPropStr2AST(modelStr, 'e.target.value', t)]
-                                    )]
-                                )
-                            ),
+                            t.expressionStatement(setStateCall),
                             t.expressionStatement(
                                 t.callExpression(
                                     callee,
@@ -74,16 +74,7 @@ module.exports = function ({types: t}) {
                     t.jSXIdentifier('onInput'),
                     t.JSXExpressionContainer(
                         t.arrowFunctionExpression(
-                            [t.identifier('e')],
-                            t.callExpression(
-                                t.memberExpression(
-                                    t.thisExpression(),
-                                    t.identifier('setState')
-                                ),
-                                [t.objectExpression(
-                                    [objPropStr2AST(modelStr, 'e.target.value', t)]
-                                )]
-                            )
+                            [t.identifier('e')], setStateCall
                         )
                     )
                 ));
