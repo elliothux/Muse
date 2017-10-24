@@ -16,6 +16,7 @@ class App2 extends F {
             <input
                 type="number"
                 model={this.state.age}
+                onChange={console.log(this.state)}
                 placeholder="Hello"
             />
         </div>

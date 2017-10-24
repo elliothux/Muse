@@ -1,13 +1,39 @@
-const colors = require('colors/safe');
-const log = function (text) {
-    typeof text === 'object' && (text = JSON.stringify(text, null, 4));
-    console.log(colors.red.bold(text))
-}.bind(console);
+
+
+function objValueStr2AST(objValueStr, t) {
+    const values = objValueStr.split('.');
+    if (values.length === 1)
+        return t.identifier(values[0]);
+    return t.MemberExpression(
+        objValueStr2AST(values.slice(0, values.length - 1).join('.'), t),
+        objValueStr2AST(values[values.length - 1], t)
+    )
+}
+
+function objPropStr2AST(key, value, t) {
+    return t.objectProperty(
+        t.identifier(key),
+        objValueStr2AST(value, t)
+    )
+}
+
+function objStr2AST(objStr, t) {
+    const props = objStr.replace(/(\{\})/g, '').split(';');
+    return t.objectExpression(props.map(p => {
+        const [key, value] = p.split(':').map(p => p.trim());
+        return t.objectProperty(
+            t.identifier(key),
+            objValueStr2AST(value, t)
+        )
+    }))
+}
 
 
 module.exports = function ({types: t}) {
+    let attrName = 'model';
+
     const JSXAttributeVisitor = function (node) {
-        if (node.node.name.name === 'model') {
+        if (node.node.name.name === attrName) {
             node.node.name.name = 'value';
             node.insertAfter(t.JSXAttribute(
                 t.jSXIdentifier('onInput'),
@@ -19,18 +45,9 @@ module.exports = function ({types: t}) {
                                 t.thisExpression(),
                                 t.identifier('setState')
                             ),
-                            [t.objectExpression([
-                                t.objectProperty(
-                                    t.identifier('age'),
-                                    t.memberExpression(
-                                        t.memberExpression(
-                                            t.identifier('e'),
-                                            t.identifier('target')
-                                        ),
-                                        t.identifier('value')
-                                    )
-                                )
-                            ])]
+                            [t.objectExpression(
+                                [objPropStr2AST('age', 'e.target.value', t)]
+                            )]
                         )
                     ))
             ));
@@ -38,6 +55,7 @@ module.exports = function ({types: t}) {
     };
 
     const JSXElementVisitor = function (path) {
+        attrName = this.opts && this.opts.attrName || attrName;
         path.traverse({
             JSXAttribute: JSXAttributeVisitor
         });
