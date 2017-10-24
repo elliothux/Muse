@@ -45,7 +45,6 @@ module.exports = function ({types: t}) {
             const onInput = node.parent.attributes.filter(attr => attr.name.name === 'onInput')[0];
             if (onInput) {
                 const callee = onInput.value.expression;
-                // console.log(onInput.value);
                 onInput.value = t.JSXExpressionContainer(
                     t.arrowFunctionExpression(
                         [t.identifier('e')],
