@@ -13,7 +13,8 @@ class App2 extends F {
                     p: 11
                 }
             },
-            show: true
+            list: [1, 2, 3, 4, 5],
+            show: false
         }
     }
 
@@ -22,7 +23,8 @@ class App2 extends F {
             <h1>Binding data: {this.state.age.value.v}</h1>
             <input
                 type="number"
-                model={this.state.age.value.v}
+                f-model={this.state.age.value.v}
+                f-if={this.state.show}
                 placeholder="Hello"
             />
         </div>

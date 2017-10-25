@@ -9,7 +9,10 @@
   ],
   "plugins": [
     ["./plugins/TwoWayDataBinding.js", {
-      "attrName": "model"
+      "attrName": "f-model"
+    }],
+    ["./plugins/Directions.js", {
+      "attrName": "f-if"
     }],
     "transform-jsx"
   ]

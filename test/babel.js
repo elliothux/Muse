@@ -14,7 +14,8 @@ render(
   <h1>Hello</h1>
   <input
     type="number"
-    model={state.age.t}
+    f-model={state.age.t}
+    f-if={state.age.show}
     placeholder="Hello"
   />
 </div>
@@ -24,10 +25,13 @@ render(
 const result = babel.transform(code, {
     plugins: [
         ["../plugins/TwoWayDataBinding.js", {
-            "attrName": "model"
+            "attrName": "f-model"
+        }],
+        ["../plugins/Directions.js", {
+            "attrName": "f-if"
         }],
         "transform-jsx"
-    ],
+    ]
 });
 
 
