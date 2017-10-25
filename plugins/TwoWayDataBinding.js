@@ -1,7 +1,6 @@
 
 // 如: this.state.name
 function objValueStr2AST(objValueStr, t) {
-    // console.log(objValueStr);
     const values = objValueStr.split('.');
     if (values.length === 1)
         return t.identifier(values[0]);
