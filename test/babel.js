@@ -27,7 +27,7 @@ const result = babel.transform(code, {
         ["../plugins/TwoWayDataBinding.js", {
             "attrName": "f-model"
         }],
-        ["../plugins/Directions.js", {
+        ["../plugins/IfDirection.js", {
             "attrName": "f-if"
         }],
         "transform-jsx"

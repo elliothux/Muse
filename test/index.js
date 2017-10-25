@@ -22,11 +22,14 @@ class App2 extends F {
         <div>
             <h1>Binding data: {this.state.age.value.v}</h1>
             <input
-                type="number"
                 f-model={this.state.age.value.v}
-                f-if={this.state.show}
+                type="number"
                 placeholder="Hello"
             />
+            <div f-if={this.state.age.value.v % 2 === 0}>
+                <h1>Yo!!!!</h1>
+                <h2 f-if={this.state.age.value.v % 3 === 0}>HO!!!!!</h2>
+            </div>
         </div>
     )}
 }

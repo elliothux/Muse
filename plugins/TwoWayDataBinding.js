@@ -41,7 +41,6 @@ function objPropStr2AST(key, value, t) {
         function indexKey2Str(index, key) {
             const str = ['_state'];
             for (let i = 0; i < index; i++) str.push(key[i]);
-            console.log(str.join('.'));
             return str.join('.')
         }
     }
