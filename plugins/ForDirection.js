@@ -32,7 +32,13 @@ module.exports = function ({types: t}) {
             path.replaceWith(t.jSXExpressionContainer(
                 t.callExpression(
                     t.memberExpression(array, t.identifier('map')),
-                    [t.arrowFunctionExpression(params, path.node)]
+                    [t.callExpression(
+                        t.memberExpression(
+                            t.arrowFunctionExpression(params, path.node),
+                            t.identifier('bind')
+                        ),
+                        [t.thisExpression()]
+                    )]
                 )
             ))
         }

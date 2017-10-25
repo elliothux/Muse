@@ -13,7 +13,8 @@ class App2 extends F {
                     p: 11
                 }
             },
-            list: [1, 2, 3, 4, 5],
+            list1: [1, 2, 3, 4, 5],
+            list2: [1, 2, 3, 4, 5],
             show: false
         }
     }
@@ -21,9 +22,11 @@ class App2 extends F {
     render() { return(
         <div>
             <h1>Binding data: {this.state.age.value.v}</h1>
-            <span f-for={"(i, index) in this.state.list"} key={index}>{i}</span>
-            <br/>
-            <span f-for={"(i, index) in this.state.list"} key={index}>{i+1}</span>
+            <p f-for={"(i, index) in this.state.list1"} key={index}>
+                <span>{i}</span>
+                <span>---</span>
+                <span f-for={"(j, index) in this.state.list2"} key={j + index}>{i+j}</span>
+            </p>
         </div>
     )}
 }
