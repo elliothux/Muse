@@ -8,15 +8,9 @@
     }]
   ],
   "plugins": [
-    ["./plugins/TwoWayDataBinding.js", {
-      "attrName": "f-model"
-    }],
-    ["./plugins/IfDirection.js", {
-      "attrName": "f-if"
-    }],
-    ["./plugins/ForDirection.js", {
-      "attrName": "f-for"
-    }],
+    ["jsx-two-way-binding", {"attrName": "f-model"}],
+    ["jsx-if-directive", {"attrName": "f-if"}],
+    ["jsx-for-directive", {"attrName": "f-for"}],
     "transform-jsx"
   ]
 }
