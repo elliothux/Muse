@@ -15,18 +15,21 @@ class App2 extends F {
             },
             list1: [1, 2, 3, 4, 5],
             list2: [1, 2, 3, 4, 5],
-            show: false
+            show: false,
+            url: 'http://www.test.com'
         }
     }
 
     render() { return(
         <div>
             <h1>Binding data: {this.state.age.value.v}</h1>
+            <input f-model={this.state.url}/>
             <p f-for={"(i, index) in this.state.list1"} key={index}>
                 <span>{i}</span>
                 <span>---</span>
                 <span f-for={"(j, index) in this.state.list2"} key={j + index}>{i+j}</span>
             </p>
+            <a href={this.state.url}>Hahah</a>
         </div>
     )}
 }
