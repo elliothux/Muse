@@ -1,39 +1,51 @@
 
+// 如: this.state.name
 function objValueStr2AST(objValueStr, t) {
+    // console.log(objValueStr);
     const values = objValueStr.split('.');
     if (values.length === 1)
         return t.identifier(values[0]);
-    return t.MemberExpression(
+    return t.memberExpression(
         objValueStr2AST(values.slice(0, values.length - 1).join('.'), t),
         objValueStr2AST(values[values.length - 1], t)
     )
 }
 
+
+// 如: { key: value }
 function objPropStr2AST(key, value, t) {
-    this.setState({
-        age: Object.assign(this.state.age, {
-            value: Object.assign(this.state.age.value, {
-                v: e.target.value
-            })
-        })
-    });
-    key = k.split('.'); // key = [age, value, v]
+    key = key.split('.');
     return t.objectProperty(
         t.identifier(key[0]),
-        key[1] ?
-            t.callExpression(
-                t.memberExpression(
-                    t.identifier('Object'),
-                    t.identifier('assign')
-                ),
-                [
-                    t.memberExpression(
+        key2ObjCall(key, t)
+    );
 
+    function key2ObjCall(key, t, index) {
+        !index && (index = 0);
+        if (key.length - 1 === index) return objValueStr2AST(value, t);
+        return t.callExpression(
+            t.memberExpression(
+                t.identifier('Object'),
+                t.identifier('assign')
+            ),
+            [
+                objValueStr2AST(indexKey2Str(index + 1, key), t),
+                t.objectExpression([
+                    t.objectProperty(
+                        t.identifier(key[index + 1]),
+                        key2ObjCall(key, t, index + 1)
                     )
-                ]
-            ) :
-            objValueStr2AST(value, t)
-    )
+                ])
+            ]
+        );
+
+        function indexKey2Str(index, key) {
+            const str = ['_state'];
+            for (let i = 0; i < index; i++) str.push(key[i]);
+            console.log(str.join('.'));
+            return str.join('.')
+        }
+    }
 }
 
 function objExpression2Str(expression) {
@@ -62,6 +74,17 @@ module.exports = function ({types: t}) {
             if (modelStr[0] !== 'this' || modelStr[1] !== 'state') return;
 
             modelStr = modelStr.slice(2, modelStr.length).join('.');
+            const stateDeclaration = t.variableDeclaration(
+                'const', [
+                    t.variableDeclarator(
+                        t.identifier('_state'),
+                        t.memberExpression(
+                            t.thisExpression(),
+                            t.identifier('state')
+                        )
+                    )
+                ]
+            );
             const setStateCall = t.callExpression(
                 t.memberExpression(
                     t.thisExpression(),
@@ -80,6 +103,7 @@ module.exports = function ({types: t}) {
                     t.arrowFunctionExpression(
                         [t.identifier('e')],
                         t.blockStatement([
+                            stateDeclaration,
                             t.expressionStatement(setStateCall),
                             t.expressionStatement(
                                 t.callExpression(
@@ -95,7 +119,11 @@ module.exports = function ({types: t}) {
                     t.jSXIdentifier('onInput'),
                     t.JSXExpressionContainer(
                         t.arrowFunctionExpression(
-                            [t.identifier('e')], setStateCall
+                            [t.identifier('e')],
+                            t.blockStatement([
+                                stateDeclaration,
+                                t.expressionStatement(setStateCall)
+                            ])
                         )
                     )
                 ));

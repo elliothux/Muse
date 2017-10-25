@@ -15,7 +15,6 @@ render(
   <input
     type="number"
     model={state.age.t}
-    f-if={show}
     placeholder="Hello"
   />
 </div>

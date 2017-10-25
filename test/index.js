@@ -19,6 +19,7 @@ class App2 extends F {
 
     render() { return(
         <div>
+            <h1>Binding data: {this.state.age.value.v}</h1>
             <input
                 type="number"
                 model={this.state.age.value.v}
