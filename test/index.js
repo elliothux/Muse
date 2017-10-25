@@ -22,8 +22,8 @@ class App2 extends F {
 
     render() { return(
         <div>
-            <h1>Binding data: {this.state.age.value.v}</h1>
-            <input f-model={this.state.url}/>
+            <h1 f-if={this.state.age.value.v % 2 === 0}>Binding data: {this.state.age.value.v}</h1>
+            <input f-model={this.state.age.value.v}/>
             <p f-for={"(i, index) in this.state.list1"} key={index}>
                 <span>{i}</span>
                 <span>---</span>
