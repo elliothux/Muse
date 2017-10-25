@@ -21,7 +21,9 @@ class App2 extends F {
     render() { return(
         <div>
             <h1>Binding data: {this.state.age.value.v}</h1>
-            <h1 f-for={"i in list"}>{i}</h1>
+            <span f-for={"(i, index) in this.state.list"} key={index}>{i}</span>
+            <br/>
+            <span f-for={"(i, index) in this.state.list"} key={index}>{i+1}</span>
         </div>
     )}
 }

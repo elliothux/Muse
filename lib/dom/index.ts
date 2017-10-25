@@ -6,8 +6,17 @@ import { h, create, diff, patch } from 'virtual-dom';
 function jsx2vTree(jsxTree) {
     if (typeof jsxTree !== 'object') return jsxTree;
     let { elementName, attributes, children } = jsxTree;
-    if (Array.isArray(children))
-        children = jsxTree.children.map(c => jsx2vTree(c));
+    if (children) {
+        let index = children.findIndex(c => Array.isArray(c));
+        while (index !== -1) {
+            children = children.slice(0, index).concat(
+                children[index],
+                children.slice(index + 1, children.length)
+            );
+            index = children.findIndex(c => Array.isArray(c));
+        }
+        children = children.map(c => jsx2vTree(c));
+    }
     return h(elementName, handleAttr(attributes), children)
 }
 
