@@ -4,7 +4,8 @@ const babel = require('babel-core');
 const code = `
 const state = {
   age: {
- 	t: 20
+ 	t: 20,
+ 	show: true
   }
 };
 
@@ -14,7 +15,7 @@ render(
   <input
     type="number"
     model={state.age.t}
-    onInput={() => {console.log(this.state.age)}}
+    f-if={show}
     placeholder="Hello"
   />
 </div>
@@ -23,7 +24,7 @@ render(
 
 const result = babel.transform(code, {
     plugins: [
-        ["../plugins/f.js", {
+        ["../plugins/TwoWayDataBinding.js", {
             "attrName": "model"
         }],
         "transform-jsx"

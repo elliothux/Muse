@@ -1,3 +1,4 @@
+
 function objValueStr2AST(objValueStr, t) {
     const values = objValueStr.split('.');
     if (values.length === 1)
@@ -9,9 +10,29 @@ function objValueStr2AST(objValueStr, t) {
 }
 
 function objPropStr2AST(key, value, t) {
+    this.setState({
+        age: Object.assign(this.state.age, {
+            value: Object.assign(this.state.age.value, {
+                v: e.target.value
+            })
+        })
+    });
+    key = k.split('.'); // key = [age, value, v]
     return t.objectProperty(
-        t.identifier(key),
-        objValueStr2AST(value, t)
+        t.identifier(key[0]),
+        key[1] ?
+            t.callExpression(
+                t.memberExpression(
+                    t.identifier('Object'),
+                    t.identifier('assign')
+                ),
+                [
+                    t.memberExpression(
+
+                    )
+                ]
+            ) :
+            objValueStr2AST(value, t)
     )
 }
 
@@ -35,12 +56,12 @@ function objExpression2Str(expression) {
 module.exports = function ({types: t}) {
     let attrName = 'model';
 
-    const JSXAttributeVisitor = function (node) {
+    function JSXAttributeVisitor(node) {
         if (node.node.name.name === attrName) {
             let modelStr = objExpression2Str(node.node.value.expression).split('.');
             if (modelStr[0] !== 'this' || modelStr[1] !== 'state') return;
-            modelStr = modelStr.slice(2, modelStr.length).join('.');
 
+            modelStr = modelStr.slice(2, modelStr.length).join('.');
             const setStateCall = t.callExpression(
                 t.memberExpression(
                     t.thisExpression(),
@@ -80,14 +101,14 @@ module.exports = function ({types: t}) {
                 ));
             }
         }
-    };
+    }
 
-    const JSXElementVisitor = function (path) {
+    function JSXElementVisitor(path) {
         attrName = this.opts && this.opts.attrName || attrName;
         path.traverse({
             JSXAttribute: JSXAttributeVisitor
         });
-    };
+    }
 
     return {
         visitor: {

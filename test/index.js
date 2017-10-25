@@ -6,17 +6,22 @@ class App2 extends F {
     constructor() {
         super();
         this.state ={
-            age: 10
+            age: {
+                t: 2,
+                value: {
+                    v: 20,
+                    p: 11
+                }
+            },
+            show: true
         }
     }
 
     render() { return(
         <div>
-            <h1>I'm {this.state.age} years old.</h1>
             <input
                 type="number"
-                model={this.state.age}
-                onInput={() => console.log('changed!')}
+                model={this.state.age.value.v}
                 placeholder="Hello"
             />
         </div>

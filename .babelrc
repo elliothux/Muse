@@ -8,7 +8,7 @@
     }]
   ],
   "plugins": [
-    ["./plugins/f.js", {
+    ["./plugins/TwoWayDataBinding.js", {
       "attrName": "model"
     }],
     "transform-jsx"
