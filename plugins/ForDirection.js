@@ -11,7 +11,7 @@ function objValueStr2AST(objValueStr, t) {
 
 
 module.exports = function ({types: t}) {
-    let attrName = 'f-for';
+    let attrName = 'for';
 
     function JSXElementVisitor(path) {
         attrName = this.opts && this.opts.attrName || attrName;

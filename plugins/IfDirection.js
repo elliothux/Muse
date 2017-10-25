@@ -1,6 +1,6 @@
 
 module.exports = function ({types: t}) {
-    let attrName = 'f-if';
+    let attrName = 'if';
 
     function JSXElementVisitor(path) {
         attrName = this.opts && this.opts.attrName || attrName;
