@@ -5,7 +5,7 @@
 ✔ Virtual Dom (Will be replaced by [F-dom](https://github.com/HuQingyang/F-dom))   
 ✔ Diff Render (Will be replaced by [F-dom](https://github.com/HuQingyang/F-dom))  
 ✔ SetState Api   
-✔ Event handler 
+✔ Event Handler  
 ✔ Two-way Data Binding  
 ✔ If Directive   
 ✔ For Directive   
