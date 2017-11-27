@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
     devtool: 'inline-source-map',
     entry: {
-        index: path.join(__dirname, './lib/index.ts'),
+        index: path.join(__dirname, './src/index.ts'),
         test: path.join(__dirname, './test/index.js'),
     },
     output: {

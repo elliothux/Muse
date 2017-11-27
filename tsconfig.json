@@ -5,10 +5,11 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "allowJs": true,
     "target": "es5"
   },
   "files": [
-    "./lib/index.ts"
+    "./src/index.ts"
   ],
   "exclude": [
     "./node_modules"

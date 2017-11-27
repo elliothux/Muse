@@ -1,5 +1,5 @@
 
-import { F } from '../lib';
+import { F } from '../src';
 
 
 class App2 extends F {

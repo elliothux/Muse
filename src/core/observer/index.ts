@@ -1,0 +1,6 @@
+
+
+class Observer {
+    private value: {};
+
+}
