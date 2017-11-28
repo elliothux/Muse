@@ -2,8 +2,8 @@
 
 ## Working on ...
 ✔ Supporting JSX  
-✔ Virtual Dom (Will be replaced by [F-dom](https://github.com/HuQingyang/F-dom))   
-✔ Diff Render (Will be replaced by [F-dom](https://github.com/HuQingyang/F-dom))  
+✔ Virtual Dom (Will be replaced by [Mo-DOM](https://github.com/HuQingyang/Mo-DOM))   
+✔ Diff Render (Will be replaced by [Mo-DOM](https://github.com/HuQingyang/Mo-DOM))  
 ✔ SetState Api   
 ✔ Event Handler  
 ✔ Two-way Data Binding  
