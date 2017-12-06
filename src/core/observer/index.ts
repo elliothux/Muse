@@ -1,6 +1,10 @@
 
+import Observer from './object';
+import ObserverArray from './array';
 
-class Observer {
-    private value: {};
 
+
+export {
+    Observer,
+    ObserverArray
 }

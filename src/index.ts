@@ -1,7 +1,7 @@
 
-import Mo from './core';
+import Mo from './core/index';
 
 
-export {
+export default {
     Mo
 }
