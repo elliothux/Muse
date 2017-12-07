@@ -1,4 +1,4 @@
-# Mo.js
+# Muse
 
 ✨ A light-weight and fast front-end framework
 
@@ -32,4 +32,4 @@
 
 
 ## Example
-See also [Example](https://github.com/HuQingyang/Mo.js/blob/master/example/index.js)
+See also [Example](https://github.com/HuQingyang/Muse/blob/master/example/index.js)
