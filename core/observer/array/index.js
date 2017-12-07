@@ -1,15 +1,14 @@
 
-import { walk, observer } from '../utils';
+import { walk, observer } from '../utils/index';
 
 
 
 const setterCallback = (obj, key, value) => console.log(`Get ${key} of ${obj}: ${value}`);
 const getterCallback = (obj, key, newValue) => console.log(`Set ${key} of ${obj}: ${newValue}`)
 
-class ObserverArray {
-    length: number;
 
-    constructor(array?: any[]) {
+export default class ObserverArray {
+    constructor(array) {
         !array && (array = []);
         if (!Array.isArray(array))
             throw new TypeError('Type "Array" required!');
@@ -37,10 +36,10 @@ class ObserverArray {
         );
         return newArray;
     };
-    copyWithin = (target: number, start: number, end?: number) => {
+    copyWithin = (...args) => {
         // TODO
         return ObserverArray.from(
-            Array.from(this).copyWithin(target, start, end)
+            Array.from(this).copyWithin(...args)
         )
     };
     entries = function *() {
@@ -85,7 +84,3 @@ class ObserverArray {
     unshift = () => {};
     values = () => {};
 }
-
-
-
-export default ObserverArray;

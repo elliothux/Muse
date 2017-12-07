@@ -1,16 +1,16 @@
-
 {
   "presets": [
     ["env", {
       "targets": {
-        "browsers": ["last 2 versions"]
+        "browsers": ["last 2 versions", "safari >= 7"]
       }
     }]
   ],
   "plugins": [
-    ["jsx-two-way-binding", {"attrName": "f-model"}],
-    ["jsx-if-directive", {"attrName": "f-if"}],
-    ["jsx-for-directive", {"attrName": "f-for"}],
+    "transform-object-rest-spread",
+    "transform-function-bind",
+    "transform-decorators-legacy",
+    "transform-class-properties",
     "transform-jsx"
   ]
 }

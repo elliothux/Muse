@@ -1,3 +1,0 @@
-
-import './array';
-import './object';

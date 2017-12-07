@@ -1,10 +1,10 @@
 
 
-import { walk, observer } from '../utils'
+import { walk, observer } from '../utils/index'
 
 
 
-class Observer {
+export default class Observer {
     constructor(obj) {
         if (typeof obj !== "object")
             throw new TypeError('Type "Array" required!');
@@ -23,6 +23,3 @@ class Observer {
         return `Observer ${this}`
     };
 }
-
-
-export default Observer;

@@ -1,9 +1,9 @@
 
-import { Mo } from '../src/core/index.ts';
+import { Component } from '../index';
 
 
 
-class App extends Mo {
+class App extends Component {
     constructor(...args) {
         super(...args);
     }
@@ -16,4 +16,5 @@ class App extends Mo {
 }
 
 
-(new App()).renderTo(document.getElementById('root'));
+const app = new App();
+app.renderTo(document.getElementById('root'));

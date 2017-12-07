@@ -1,6 +1,7 @@
 
-import Observer from './object';
-import ObserverArray from './array';
+import Observer from '../object';
+import ObserverArray from '../array';
+
 
 
 function walk(obj, fun) {
@@ -12,7 +13,7 @@ function walk(obj, fun) {
         return Object.keys(obj).forEach(key => fun(key, obj[key], obj));
 }
 
-function observer(obj, key, value, getterCallback?, setterCallback?) {
+function observer(obj, key, value, getterCallback, setterCallback) {
     if (typeof obj !== 'object')
         throw new TypeError(`Function "observer" require an "object" instead of ${typeof obj}`);
 
@@ -36,7 +37,7 @@ function observer(obj, key, value, getterCallback?, setterCallback?) {
 }
 
 
-const getObjID = function() {
+const getUniqueID = function() {
     let id = 0;
     return (() => id ++);
 }();
@@ -45,5 +46,5 @@ const getObjID = function() {
 export {
     walk,
     observer,
-    getObjID
+    getUniqueID
 }
