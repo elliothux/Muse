@@ -8,7 +8,6 @@ import { setAttribute, removeAttribute } from "../utils/index";
 function patch(parent, patches, index=0) {
     if (!patches) return;
     const el = parent.childNodes[index];
-    if (!el) return;
     switch (patches.type) {
         case ChangeType.CREATE: {
             const { newNode } = patches;
@@ -19,6 +18,8 @@ function patch(parent, patches, index=0) {
             break;
         }
         case ChangeType.REMOVE: {
+            if (!el) return;
+            console.log(parent);
             parent.removeChild(el);
             break;
         }

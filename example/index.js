@@ -31,7 +31,7 @@ class App extends Muse {
             <p>My name is {this.state.name}.</p>
             <p>
                 I'm {this.state.age} years old
-                <span if={this.computed.isAgeOdd}>and it's an odd number.</span>
+                <span if={this.computed.isAgeOdd}> and it's an odd number.</span>
             </p>
             <p>And I can those programming languages:</p>
             <ul>
