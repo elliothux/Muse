@@ -1,6 +1,7 @@
 
 import { createElement, diff, patch } from './dom';
 import { Observer, observer, walk } from './observer';
+import { flattenNode } from './utils'
 
 
 
@@ -57,13 +58,14 @@ class Component {
     render() {};
     renderTo(entry) {
         this.beforeRender();
-        this.node = this.render();
+        this.node = flattenNode(this.render());
         this.entry = entry;
+        console.log(this.node)
         this.entry.appendChild(createElement(this.node))
     };
     diffAndPatch() {
         const oldNode = this.node;
-        this.node = this.render();
+        this.node = flattenNode(this.render());
         const patches = diff(this.node, oldNode);
         console.log(oldNode);
         console.log(this.node);

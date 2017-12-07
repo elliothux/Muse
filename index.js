@@ -1,8 +1,8 @@
 
-import Component from './core';
+import Muse from './core';
 
 
 
 export {
-    Component
+    Muse
 }

@@ -1,13 +1,13 @@
 
-import { Component } from '../index';
+import { Muse } from '../index';
 
 
 
-class App extends Component {
+class App extends Muse {
     state = {
         name: 'Joe',
         age: 22,
-        list: [
+        langs: [
             'JavaScript',
             'Python',
             'Rust',
@@ -16,8 +16,8 @@ class App extends Component {
     }
 
     computed = {
-        canDrive() {
-            return this.state.age % 2 === 0
+        isAgeOdd() {
+            return this.state.age % 2 !== 0
         }
     }
 
@@ -27,18 +27,17 @@ class App extends Component {
 
     render() { return (
         <div>
-            {/*<p if={this.computed.canDrive}>I'm {this.state.name}.</p>*/}
-            <p>I'm {this.state.age} years old.</p>
-            <p>I can <span if={this.computed.canDrive}>not</span> Drive</p>
+            <h1>Hello!</h1>
+            <p>My name is {this.state.name}.</p>
+            <p>
+                I'm {this.state.age} years old
+                <span if={this.computed.isAgeOdd}>and it's an odd number.</span>
+            </p>
+            <p>And I can those programming languages:</p>
             <ul>
-                <li
-                    for={(lang, index) in this.state.list}
-                    key={index}
-                >{lang}</li>
+                <li for={(lang, index) in this.state.langs}>{lang}</li>
             </ul>
-            <button
-                onClick={this.handleClick}
-            >Click Me</button>
+            <button onClick={this.handleClick}>Click Me</button>
         </div>
     )}
 }
