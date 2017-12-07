@@ -35,7 +35,7 @@
 
 ### Run Example
 `git clone https://github.com/HuQingyang/Muse && cd ./Muse`  
-`npm install`
+`npm install`  
 `npm start`  
 
 
