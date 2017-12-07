@@ -21,9 +21,9 @@ function observer(obj, key, value, setterCallback=noop, getterCallback=noop) {
         throw new TypeError(`Function "observer" require an "object" instead of ${typeof obj}`);
 
     if (Array.isArray(value))
-        value = ObserverArray.from(value);
+        value = ObserverArray.from(value, setterCallback, getterCallback);
     else if (typeof value === "object")
-        value = Observer.from(value);
+        value = Observer.from(value, setterCallback, getterCallback);
 
     Object.defineProperty(obj, key, {
         enumerable: true,

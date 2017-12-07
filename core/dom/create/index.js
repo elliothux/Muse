@@ -13,7 +13,10 @@ function createElement(node) {
     */
     if (typeof node === 'object') {
         const el = document.createElement(node.elementName);
-        node.children && appendChildren(el, node.children);
+        if (node.children) {
+            node.children = [].concat(...node.children);
+            appendChildren(el, node.children);
+        }
         setAttributes(el, node.attributes);
         return el;
     }
