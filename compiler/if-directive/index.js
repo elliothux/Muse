@@ -8,7 +8,6 @@ module.exports = function ({types: t}) {
         path.traverse({ JSXElement: JSXElementVisitor });
 
         const ifBinding = getAndRemoveIfBinding(path.node.openingElement);
-        console.log(ifBinding)
         if (ifBinding) {
             path.replaceWith(t.jSXExpressionContainer(
                 t.conditionalExpression(

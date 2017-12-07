@@ -32,9 +32,17 @@ function removeAttribute(target, attrName, oldAttrValue) {
 }
 
 
+function insertAfter(newEl, targetEl) {
+    const parentEl = targetEl.parentNode;
+    if (parentEl.lastChild === targetEl)
+        return parentEl.appendChild(newEl);
+    return parentEl.insertBefore(newEl,targetEl.nextSibling);
+}
+
 
 export {
     setAttributes,
     setAttribute,
-    removeAttribute
+    removeAttribute,
+    insertAfter
 }

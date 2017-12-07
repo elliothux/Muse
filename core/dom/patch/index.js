@@ -12,10 +12,13 @@ function patch(parent, patches, index=0) {
         case ChangeType.CREATE: {
             const { newNode } = patches;
             const newEl = createElement(newNode);
-            parent.appendChild(newEl);
+            if (index === parent.childNodes.length - 1)
+                parent.appendChild(newEl);
+            else parent.insertBefore(newEl, el);
             break;
         }
         case ChangeType.REMOVE: {
+            console.log(parent);
             parent.removeChild(el);
             break;
         }
@@ -28,7 +31,7 @@ function patch(parent, patches, index=0) {
         case ChangeType.UPDATE: {
             const { children, attributes } = patches;
             patchAttributes(el, attributes);
-            children.forEach((child, index) => patch(el, child, index));
+            children.forEach((child, index) => console.log(el, child, index) || patch(el, child, index));
             break;
         }
     }
