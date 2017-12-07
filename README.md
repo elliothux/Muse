@@ -32,4 +32,4 @@ A light-weight and fast front-end framework
 
 
 ## Example
-See also 
+See also [Example](https://github.com/HuQingyang/Mo.js/blob/master/example/index.js)
