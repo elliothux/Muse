@@ -9,7 +9,7 @@
 * State Management  
 * Directives  
 * Supporting HOC  
-* More Future...
+* More Easy to Use Features...
 
 
 ## Project Plan
@@ -28,7 +28,7 @@
 * [ ] Events Encapsulation
 * [ ] Dependence Collection
 * [ ] Supporting Watch
-* [ ] Supporting Two-way Data Binding
+* [ ] Supporting Two-way Data Binding  
 * [ ] More Efficient Diff Render
 
 
