@@ -8,6 +8,7 @@ class Component {
     constructor() {}
 
     entry = null;
+    node = null;
     state = {};
 
     // TODO: LifeCycle
@@ -32,7 +33,8 @@ class Component {
     setterCallback(obj, key, value, oldValue) {
         if (obj !== this.state)
             throw new Error('BOOM!!!');
-        console.log(obj, key, value, oldValue);
+        // console.log(obj, key, value, oldValue);
+        this.diffAndPatch();
     }
 
     // Render
@@ -40,15 +42,17 @@ class Component {
         this.initObserver();
     }
     render() {}
-    diff() {};
-    patch() {};
+    diffAndPatch() {
+        const oldNode = this.node;
+        this.node = this.render();
+        const patches = diff(this.node, oldNode);
+        patch(this.entry, patches);
+    };
     renderTo(entry) {
-        console.log(this.render());
         this.beforeRender();
+        this.node = this.render();
         this.entry = entry;
-        this.entry.appendChild(
-            createElement(this.render())
-        )
+        this.entry.appendChild(createElement(this.node))
     };
 }
 

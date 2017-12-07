@@ -25,8 +25,8 @@ function diff(newNode, oldNode) {
 
 function isChanged(newNode, oldNode) {
     return typeof newNode !== typeof oldNode ||
-        typeof newNode === "string" && newNode !== oldNode ||
-        typeof newNode !== "string" && newNode.elementName !== oldNode.elementName;
+        typeof newNode !== "object" && newNode !== oldNode ||
+        typeof newNode === "object" && newNode.elementName !== oldNode.elementName;
 }
 
 function diffAttributes(newNode, oldNode) {
