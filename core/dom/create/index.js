@@ -23,7 +23,7 @@ function createElement(node) {
 
 function appendChildren(target, children) {
     children.map(createElement)
-        .forEach(target.appendChild.bind(target))
+        .forEach(::target.appendChild)
 }
 
 
