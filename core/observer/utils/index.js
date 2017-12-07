@@ -34,7 +34,7 @@ function observer(obj, key, value, setterCallback=noop, getterCallback=noop) {
         },
         set: newValue => {
             const oldValue = obj[key];
-            observer(obj, key, newValue);
+            observer(obj, key, newValue, setterCallback, getterCallback);
             setterCallback(obj, key, newValue, oldValue);
         }
     })
