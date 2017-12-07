@@ -19,7 +19,8 @@
 ✔ Diff and Patch Render  
 ✔ Observer State  
 ✔ Computed Data  
-✔ Handle Events
+✔ Handle Events  
+✔ Supporting Directives
 
 ### Todo
 * [ ] Components and Props
@@ -27,7 +28,7 @@
 * [ ] Events Encapsulation
 * [ ] Dependence Collection
 * [ ] Supporting Watch
-* [ ] Supporting Directives
+* [ ] Supporting Two-way Data Binding
 * [ ] More Efficient Diff Render
 
 
