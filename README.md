@@ -1,6 +1,6 @@
 # Mo.js
 
-A light-weight and fast front-end framework
+✨ A light-weight and fast front-end framework
 
 * Supporting JSX  
 * Virtual DOM  
