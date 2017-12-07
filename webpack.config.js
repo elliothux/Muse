@@ -1,12 +1,14 @@
 
 const path = require('path');
+const isDev = process.env.NODE_ENV === 'development';
 
 
-module.exports = {
+
+const config = {
     devtool: 'inline-source-map',
     entry: {
         index: path.join(__dirname, './index.js'),
-        example: path.join(__dirname, './example/index.js')
+        example: path.join(__dirname, './example/index.js'),
     },
     output: {
         path: path.join(__dirname, './dist/'),
@@ -24,3 +26,19 @@ module.exports = {
     },
     target: "web"
 };
+
+
+if (isDev) {
+    config.devServer = {
+        hot: true,
+        contentBase: './example',
+        publicPath: '/assets/',
+        port: 2333,
+        disableHostCheck: true,
+        open: true
+    };
+}
+
+
+
+module.exports = config;

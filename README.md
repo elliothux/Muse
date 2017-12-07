@@ -1,15 +1,25 @@
-### 🤣 A mini front-end framework. JUST FOR FUN~
+# Mo.js
 
-## Working on ...
-✔ Supporting JSX  
-✔ Virtual Dom (Will be replaced by [Mo-DOM](https://github.com/HuQingyang/Mo-DOM))   
-✔ Diff Render (Will be replaced by [Mo-DOM](https://github.com/HuQingyang/Mo-DOM))  
-✔ SetState Api   
-✔ Event Handler  
-✔ Two-way Data Binding  
-✔ If Directive   
-✔ For Directive   
-✖ Show Directive  
-✖ Supporting Ref  
-✖ LifeCycle Hook Functions   
-✖ More ...
+A light-weight and fast front-end framework
+
+* Supporting JSX  
+* Virtual DOM  
+* Two-way Data Binding  
+* Observable State  
+* State Management  
+* Directives  
+* Supporting HOC  
+* More Future...
+
+
+## Project Plan
+
+### Done
+✔ First Render using Virtual DOM   
+✔ Diff and Patch Render  
+✔ Observer State  
+✔ Computed Data  
+✔ Handle Events
+
+### Todo
+* [ ] 
