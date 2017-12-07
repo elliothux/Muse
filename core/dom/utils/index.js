@@ -17,7 +17,7 @@ function removeAttribute(target, attrName) {
 
 
 
-export default {
+export {
     setAttributes,
     setAttribute,
     removeAttribute

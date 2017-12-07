@@ -1,5 +1,5 @@
 
-import { createElement } from 'mo-dom';
+import { createElement } from './dom';
 import { Observer } from './observer/index';
 
 
@@ -11,9 +11,10 @@ class Component {
     }
 
     renderTo = (entry) => {
+        console.log(this.render());
         this.entry = entry;
         this.entry.appendChild(
-            DOM.createElement(this.render())
+            createElement(this.render())
         )
     }
 }
