@@ -4,10 +4,6 @@ import { Component } from '../index';
 
 
 class App extends Component {
-    constructor(...args) {
-        super(...args);
-    }
-
     state = {
         name: 'Joe',
         age: 22
@@ -28,7 +24,7 @@ class App extends Component {
         <div>
             <p>I'm {this.state.name}.</p>
             <p>I'm {this.state.age} years old.</p>
-            <p>I {this.computed.canDrive ? 'can' : 'can not'} Drive</p>
+            <p if={this.state.age % 2 === 0}>I {this.computed.canDrive ? 'can' : 'can not'} Drive</p>
             <button
                 onClick={this.handleClick}
             >Click Me</button>

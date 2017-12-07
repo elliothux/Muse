@@ -7,6 +7,8 @@
     }]
   ],
   "plugins": [
+    "./compiler/if-directive",
+
     "transform-object-rest-spread",
     "transform-function-bind",
     "transform-decorators-legacy",
