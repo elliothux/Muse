@@ -29,29 +29,29 @@ class Component {
             this.state || {},
             ::this.setterCallback
         );
-    }
+    };
     setterCallback(obj, key, value, oldValue) {
         if (obj !== this.state)
             throw new Error('BOOM!!!');
         this.diffAndPatch();
-    }
+    };
 
     // Render
     beforeRender() {
         this.initObserver();
-    }
-    render() {}
-    diffAndPatch() {
-        const oldNode = this.node;
-        this.node = this.render();
-        const patches = diff(this.node, oldNode);
-        patch(this.entry, patches);
     };
+    render() {};
     renderTo(entry) {
         this.beforeRender();
         this.node = this.render();
         this.entry = entry;
         this.entry.appendChild(createElement(this.node))
+    };
+    diffAndPatch() {
+        const oldNode = this.node;
+        this.node = this.render();
+        const patches = diff(this.node, oldNode);
+        patch(this.entry, patches);
     };
 }
 
