@@ -1,22 +1,25 @@
 
-
 import { walk, observer } from '../utils/index'
 
 
 
 export default class Observer {
-    constructor(obj) {
+    constructor(obj, setterCallback, getterCallback) {
         if (typeof obj !== "object")
             throw new TypeError('Type "Array" required!');
         walk(obj, (key, value) => observer(
             this, key, value,
-            (obj, key, value) => console.log(`Get ${key} of ${obj}: ${value}`),
-            (obj, key, newValue) => console.log(`Set ${key} of ${obj}: ${newValue}`)
+            getterCallback,
+            setterCallback
         ));
     }
 
-    static from = obj => {
-        return new Observer(obj)
+    static from = (obj, setterCallback, getterCallback) => {
+        return new Observer(
+            obj,
+            setterCallback,
+            getterCallback
+        )
     };
 
     static toString = () => {

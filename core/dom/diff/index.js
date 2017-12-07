@@ -4,12 +4,14 @@ import { ChangeType } from '../types/index';
 
 
 function diff(newNode, oldNode) {
-    // return type Patch {
-    //     type: ChangeType
-    //     newNode?: Node
-    //     children?: Patch[]
-    //     attributes?: Patch[]
-    // }
+    /*
+    return type Patch {
+        type: ChangeType
+        newNode?: Node
+        children?: Patch[]
+        attributes?: Patch[]
+    }
+     */
     if (!oldNode) return { type: ChangeType.CREATE, newNode };
     else if (!newNode) return { type: ChangeType.REMOVE };
     else if (isChanged(newNode, oldNode)) return { type: ChangeType.REPLACE, newNode };

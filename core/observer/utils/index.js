@@ -3,6 +3,9 @@ import Observer from '../object';
 import ObserverArray from '../array';
 
 
+const noop = () => {};
+
+
 
 function walk(obj, fun) {
     if (typeof obj !== 'object')
@@ -13,7 +16,7 @@ function walk(obj, fun) {
         return Object.keys(obj).forEach(key => fun(key, obj[key], obj));
 }
 
-function observer(obj, key, value, getterCallback, setterCallback) {
+function observer(obj, key, value, getterCallback=noop, setterCallback=noop) {
     if (typeof obj !== 'object')
         throw new TypeError(`Function "observer" require an "object" instead of ${typeof obj}`);
 
@@ -30,8 +33,9 @@ function observer(obj, key, value, getterCallback, setterCallback) {
             return value
         },
         set: newValue => {
+            const oldValue = obj[key];
             observer(obj, key, newValue);
-            setterCallback(obj, key, newValue);
+            setterCallback(obj, key, newValue, oldValue);
         }
     })
 }

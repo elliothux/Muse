@@ -1,5 +1,5 @@
 
-import { createElement } from './dom';
+import { createElement, diff, patch } from './dom';
 import { Observer } from './observer/index';
 
 
@@ -7,6 +7,12 @@ import { Observer } from './observer/index';
 
 class Component {
     constructor() {
+        this.state = Observer.from(
+            this.state || {}
+        );
+    }
+
+    diff = () => {
 
     }
 
