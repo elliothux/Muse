@@ -33,7 +33,6 @@ class Component {
     setterCallback(obj, key, value, oldValue) {
         if (obj !== this.state)
             throw new Error('BOOM!!!');
-        // console.log(obj, key, value, oldValue);
         this.diffAndPatch();
     }
 
