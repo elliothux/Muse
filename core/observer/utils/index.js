@@ -16,7 +16,7 @@ function walk(obj, fun) {
         return Object.keys(obj).forEach(key => fun(key, obj[key], obj));
 }
 
-function observer(obj, key, value, getterCallback=noop, setterCallback=noop) {
+function observer(obj, key, value, setterCallback=noop, getterCallback=noop) {
     if (typeof obj !== 'object')
         throw new TypeError(`Function "observer" require an "object" instead of ${typeof obj}`);
 

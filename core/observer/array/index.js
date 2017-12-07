@@ -3,12 +3,8 @@ import { walk, observer } from '../utils/index';
 
 
 
-const setterCallback = (obj, key, value) => console.log(`Get ${key} of ${obj}: ${value}`);
-const getterCallback = (obj, key, newValue) => console.log(`Set ${key} of ${obj}: ${newValue}`)
-
-
 export default class ObserverArray {
-    constructor(array) {
+    constructor(array, setterCallback, getterCallback) {
         !array && (array = []);
         if (!Array.isArray(array))
             throw new TypeError('Type "Array" required!');
@@ -19,8 +15,13 @@ export default class ObserverArray {
         this.length = array.length;
     }
 
-    static from = array => {
-        return new ObserverArray(array)
+
+    static from = (array, setterCallback, getterCallback) => {
+        return new ObserverArray(
+            array,
+            setterCallback,
+            getterCallback
+        )
     };
     static isObserverArray  = array => {
         return array.__proto__.constructor === ObserverArray;
@@ -28,6 +29,7 @@ export default class ObserverArray {
     static of = (...args) => {
         return new ObserverArray([...args])
     };
+
 
     concat = (...arrays) => {
         const newArray = new ObserverArray();

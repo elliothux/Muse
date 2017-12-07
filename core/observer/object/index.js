@@ -9,8 +9,8 @@ export default class Observer {
             throw new TypeError('Type "Array" required!');
         walk(obj, (key, value) => observer(
             this, key, value,
-            getterCallback,
-            setterCallback
+            setterCallback,
+            getterCallback
         ));
     }
 

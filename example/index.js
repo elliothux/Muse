@@ -10,7 +10,8 @@ class App extends Component {
 
     state = {
         name: 'Joe',
-        age: 22
+        age: 22,
+        f: false
     }
 
     render() { return (
@@ -19,7 +20,7 @@ class App extends Component {
             <p>I'm {this.state.name}.</p>
             <p>I'm {this.state.age} years old.</p>
             <button
-                onClick={() => console.log((new Date()).toISOString())}
+                onClick={console.log.bind(console, this)}
             >Click Me</button>
         </div>
     )}

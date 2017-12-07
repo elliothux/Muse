@@ -4,25 +4,38 @@ import { Observer } from './observer/index';
 
 
 
-
 class Component {
     constructor() {
         this.state = Observer.from(
-            this.state || {}
+            this.state,
         );
     }
 
-    diff = () => {
+    state = {};
 
-    }
+    // TODO: LifeCycle
+    componentWillMount() {};
+    componentDidMount() {};
+    componentWillReceiveProps() {};
+    shouldComponentUpdate() {
+        return true
+    };
+    componentWillUpdate() {};
+    componentDidUpdate() {};
+    componentWillUnmount() {};
+    componentDidCatch() {};
 
-    renderTo = (entry) => {
+    // Render
+    render() {}
+    diff() {};
+    patch() {};
+    renderTo(entry) {
         console.log(this.render());
         this.entry = entry;
         this.entry.appendChild(
             createElement(this.render())
         )
-    }
+    };
 }
 
 

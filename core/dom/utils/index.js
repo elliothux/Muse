@@ -13,7 +13,7 @@ function setAttributes(target, attributes={}) {
 function setAttribute(target, attrName, attrValue) {
     attrName === 'className' && (attrName = 'class');
     if (eventTypes.includes(attrName))
-        target.addEventListener(
+        return target.addEventListener(
             eventMap[attrName],
             attrValue
         );
@@ -21,8 +21,13 @@ function setAttribute(target, attrName, attrValue) {
 }
 
 
-function removeAttribute(target, attrName) {
+function removeAttribute(target, attrName, oldAttrValue) {
     attrName === 'className' && (attrName = 'class');
+    if (eventTypes.includes(attrName))
+        return target.addEventListener(
+            eventMap[attrName],
+            oldAttrValue
+        );
     target.removeAttribute(attrName);
 }
 
