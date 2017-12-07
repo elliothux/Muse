@@ -8,6 +8,8 @@
   ],
   "plugins": [
     "./compiler/if-directive",
+    "./compiler/remove-empty-jsx",
+
     "transform-object-rest-spread",
     "transform-function-bind",
     "transform-decorators-legacy",

@@ -65,8 +65,8 @@ class Component {
         const oldNode = this.node;
         this.node = this.render();
         const patches = diff(this.node, oldNode);
-        // console.log(oldNode);
-        // console.log(this.node);
+        console.log(oldNode);
+        console.log(this.node);
         console.log(patches);
         patch(this.entry, patches);
     };

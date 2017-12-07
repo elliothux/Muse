@@ -22,7 +22,7 @@ class App extends Component {
 
     render() { return (
         <div>
-            <p if={this.computed.canDrive}>I'm {this.state.name}.</p>
+            {/*<p if={this.computed.canDrive}>I'm {this.state.name}.</p>*/}
             <p>I'm {this.state.age} years old.</p>
             <p>I can <span if={this.computed.canDrive}>not</span> Drive</p>
             <button
