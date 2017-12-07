@@ -21,7 +21,6 @@ class App extends Component {
         }
     }
 
-
     handleClick = () => {
         this.state.age ++;
     }
