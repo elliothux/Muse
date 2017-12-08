@@ -31,6 +31,7 @@ class App extends Muse {
             <input
                 type="text"
                 model={this.state.name}
+                onKeyUp={() => console.log(this.state.name)}
             />
             <p>My name is {this.state.name}.</p>
             <p>

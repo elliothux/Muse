@@ -14,7 +14,7 @@ function setValueAST(target, value) {
 
 module.exports = function ({types: t}) {
     let attrName = 'model';
-    let eventName = 'onChange';
+    let eventName = 'onKeyUp';
 
     function JSXElementVisitor(path) {
         const openingElement = path.node.openingElement;

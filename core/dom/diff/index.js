@@ -1,5 +1,5 @@
 
-import { ChangeType } from '../types/index';
+import { ChangeType, EventType } from '../types/index';
 
 
 
@@ -19,31 +19,61 @@ function diff(newNode, oldNode) {
         return {
             type: ChangeType.UPDATE,
             children: diffChildren(newNode, oldNode),
-            attributes: diffAttributes(newNode, oldNode)
+            attributes: diffAttributes(newNode, oldNode),
+            events: diffEvents(newNode, oldNode)
         };
 }
 
 function isChanged(newNode, oldNode) {
     return typeof newNode !== typeof oldNode ||
         typeof newNode !== "object" && newNode !== oldNode ||
-        typeof newNode === "object" && newNode.elementName !== oldNode.elementName;
+        typeof newNode === "object" && newNode.elementName !== oldNode.elementName
+}
+
+
+function diffEvents(newNode, oldNode) {
+    const patches  = [];
+    const attributes = {...oldNode.attributes, ...newNode.attributes};
+    Object.keys(attributes)
+        .filter(attrName => EventType.includes(attrName))
+        .forEach(eventName => {
+            const newHandler = newNode.attributes[eventName];
+            const oldHandler = oldNode.attributes[eventName];
+            if (!newHandler)
+                return patches.push({
+                    type: ChangeType.REMOVE_EVENT_LISTENER,
+                    value: oldHandler, eventName
+                });
+            else if (!oldHandler)
+                patches.push({
+                    type: ChangeType.ADD_EVENT_LISTENER,
+                    value: newHandler, eventName
+                });
+            else patches.push({
+                    type: ChangeType.UPDATE_EVENT_LISTENER,
+                    value: newHandler, oldValue: oldHandler, eventName
+                });
+        });
+    return patches;
 }
 
 function diffAttributes(newNode, oldNode) {
     const patches  = [];
     const attributes = {...oldNode.attributes, ...newNode.attributes};
-    Object.keys(attributes).map(attrName => {
-        const newAttr = newNode.attributes[attrName];
-        const oldAttr = oldNode.attributes[attrName];
-        !newAttr && patches.push({
-            type: ChangeType.REMOVE_PROPS,
-            value: oldAttr, attrName
+    Object.keys(attributes)
+        .filter(attrName => !EventType.includes(attrName))
+        .forEach(attrName => {
+            const newAttr = newNode.attributes[attrName];
+            const oldAttr = oldNode.attributes[attrName];
+            !newAttr && patches.push({
+                type: ChangeType.REMOVE_PROPS,
+                value: oldAttr, attrName
+            });
+            (!oldAttr || oldAttr !== newAttr) && patches.push({
+                type: ChangeType.SET_PROPS,
+                value: newAttr, attrName
+            });
         });
-        (!oldAttr || oldAttr !== newAttr) && patches.push({
-            type: ChangeType.SET_PROPS,
-            value: newAttr, attrName
-        });
-    });
     return patches;
 }
 

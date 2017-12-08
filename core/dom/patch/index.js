@@ -29,12 +29,27 @@ function patch(parent, patches, index=0) {
             break;
         }
         case ChangeType.UPDATE: {
-            const { children, attributes } = patches;
+            const { children, attributes, events } = patches;
             patchAttributes(el, attributes);
+            patchEvents(el, events);
             children.forEach((child, index) => patch(el, child, index));
             break;
         }
     }
+}
+
+function patchEvents(el, events) {
+    events.forEach(patch => {
+        const { type, value, oldValue, eventName } = patch;
+        if (type === ChangeType.ADD_EVENT_LISTENER)
+            return el.addEventListener(eventName, value);
+        if (type === ChangeType.REMOVE_EVENT_LISTENER)
+            return el.removeEventListener(eventName, oldValue);
+        if (type === ChangeType.UPDATE_EVENT_LISTENER) {
+            el.removeEventListener(eventName, oldValue);
+            el.addEventListener(eventName, value);
+        }
+    })
 }
 
 function patchAttributes(element, attributes) {
