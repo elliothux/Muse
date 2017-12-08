@@ -20,7 +20,6 @@ function diff(newNode, oldNode) {
             type: ChangeType.UPDATE,
             children: diffChildren(newNode, oldNode),
             attributes: diffAttributes(newNode, oldNode),
-            events: diffEvents(newNode, oldNode)
         };
 }
 
@@ -31,37 +30,10 @@ function isChanged(newNode, oldNode) {
 }
 
 
-function diffEvents(newNode, oldNode) {
-    const patches  = [];
-    const attributes = {...oldNode.attributes, ...newNode.attributes};
-    Object.keys(attributes)
-        .filter(attrName => EventType.includes(attrName))
-        .forEach(eventName => {
-            const newHandler = newNode.attributes[eventName];
-            const oldHandler = oldNode.attributes[eventName];
-            if (!newHandler)
-                return patches.push({
-                    type: ChangeType.REMOVE_EVENT_LISTENER,
-                    value: oldHandler, eventName
-                });
-            else if (!oldHandler)
-                patches.push({
-                    type: ChangeType.ADD_EVENT_LISTENER,
-                    value: newHandler, eventName
-                });
-            else patches.push({
-                    type: ChangeType.UPDATE_EVENT_LISTENER,
-                    value: newHandler, oldValue: oldHandler, eventName
-                });
-        });
-    return patches;
-}
-
 function diffAttributes(newNode, oldNode) {
     const patches  = [];
     const attributes = {...oldNode.attributes, ...newNode.attributes};
     Object.keys(attributes)
-        .filter(attrName => !EventType.includes(attrName))
         .forEach(attrName => {
             const newAttr = newNode.attributes[attrName];
             const oldAttr = oldNode.attributes[attrName];
@@ -71,7 +43,7 @@ function diffAttributes(newNode, oldNode) {
             });
             (!oldAttr || oldAttr !== newAttr) && patches.push({
                 type: ChangeType.SET_PROPS,
-                value: newAttr, attrName
+                value: newAttr, oldValue: oldAttr, attrName
             });
         });
     return patches;

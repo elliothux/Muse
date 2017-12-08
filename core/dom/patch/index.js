@@ -2,6 +2,7 @@
 import { ChangeType } from '../types';
 import { createElement } from '../create/index';
 import { setAttribute, removeAttribute } from "../utils/index";
+import {EventMap, EventType} from "../types/events";
 
 
 
@@ -29,36 +30,32 @@ function patch(parent, patches, index=0) {
             break;
         }
         case ChangeType.UPDATE: {
-            const { children, attributes, events } = patches;
+            const { children, attributes } = patches;
             patchAttributes(el, attributes);
-            patchEvents(el, events);
             children.forEach((child, index) => patch(el, child, index));
             break;
         }
     }
 }
 
-function patchEvents(el, events) {
-    events.forEach(patch => {
-        const { type, value, oldValue, eventName } = patch;
-        if (type === ChangeType.ADD_EVENT_LISTENER)
-            return el.addEventListener(eventName, value);
-        if (type === ChangeType.REMOVE_EVENT_LISTENER)
-            return el.removeEventListener(eventName, oldValue);
-        if (type === ChangeType.UPDATE_EVENT_LISTENER) {
-            el.removeEventListener(eventName, oldValue);
-            el.addEventListener(eventName, value);
-        }
-    })
-}
 
 function patchAttributes(element, attributes) {
     attributes.forEach(patch => {
-        const { type, attrName, value } = patch;
-        if (type === ChangeType.SET_PROPS)
-            setAttribute(element, attrName, value);
-        else if (type === ChangeType.REMOVE_PROPS)
-            removeAttribute(element, attrName, value)
+        const { type, attrName, value, oldValue } = patch;
+        if (EventType.includes(attrName)) {
+            const eventName = EventMap[attrName];
+            if (type === ChangeType.SET_PROPS) {
+                oldValue && element.removeEventListener(eventName, oldValue);
+                return element.addEventListener(eventName, value);
+            }
+            if (type === ChangeType.REMOVE_PROPS)
+                return element.removeEventListener(eventName, oldValue);
+        } else {
+            if (type === ChangeType.SET_PROPS)
+                return setAttribute(element, attrName, value);
+            else if (type === ChangeType.REMOVE_PROPS)
+                return removeAttribute(element, attrName, value)
+        }
     })
 }
 
