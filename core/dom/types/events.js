@@ -47,7 +47,7 @@ const EventType = [
 const EventMap = EventType.reduce((eventsMap, event) => {
     eventsMap[event] = event
         .replace('on', '')
-        .replace(/[A-Z]/, e => e.toLowerCase());
+        .replace(/[A-Z]/g, e => e.toLowerCase());
     return eventsMap;
 }, {});
 

@@ -1,6 +1,6 @@
 
 const template = require('babel-template');
-const { objValueStr2AST, objExpression2Str} = require('../utils');
+const { objValueStr2AST } = require('../utils');
 
 
 function setValueAST(target, value) {
@@ -14,61 +14,73 @@ function setValueAST(target, value) {
 
 module.exports = function ({types: t}) {
     let attrName = 'model';
-    let event = 'onInput';
+    let eventName = 'onChange';
 
-    function JSXAttributeVisitor(node) {
-        if (node.node.name.name === attrName) {
-            const setValueCall = setValueAST(
-                node.node.value.expression,
-                objValueStr2AST('e.target.value', t)
+    function JSXElementVisitor(path) {
+        const openingElement = path.node.openingElement;
+
+        const nodeType = openingElement.name.name;
+        if (!['input', 'textarea'].includes(nodeType)) return;
+
+        const modelBinding = getAttr(openingElement, attrName);
+        if (!modelBinding || !modelBinding.value ||
+            modelBinding.value.type !== 'JSXExpressionContainer') return;
+        modelBinding.name.name = 'value';
+
+        const setValueCall = setValueAST(
+            modelBinding.value.expression,
+            objValueStr2AST('e.target.value', t)
+        );
+
+        const eventHandler = getAttr(openingElement, eventName);
+        if (eventHandler) {
+            const callee = eventHandler.value.expression;
+            eventHandler.value = t.JSXExpressionContainer(
+                t.arrowFunctionExpression(
+                    [t.identifier('e')],
+                    t.blockStatement([
+                        setValueCall,
+                        t.expressionStatement(
+                            t.callExpression(
+                                callee,
+                                [t.identifier('e')]
+                            )
+                        )
+                    ])
+                )
             );
-
-            node.node.name.name = 'value';
-
-            const onChange = node.parent.attributes.filter(
-                attr => (attr && attr.name && attr.name.name) === event)[0];
-            if (onChange) {
-                const callee = onChange.value.expression;
-                onChange.value = t.JSXExpressionContainer(
+        } else {
+            openingElement.attributes.push(t.JSXAttribute(
+                t.jSXIdentifier(eventName),
+                t.JSXExpressionContainer(
                     t.arrowFunctionExpression(
                         [t.identifier('e')],
                         t.blockStatement([
-                            setValueCall,
-                            t.expressionStatement(
-                                t.callExpression(
-                                    callee,
-                                    [t.identifier('e')]
-                                )
-                            )
+                            setValueCall
                         ])
                     )
-                );
-            } else {
-                node.insertAfter(t.JSXAttribute(
-                    t.jSXIdentifier(event),
-                    t.JSXExpressionContainer(
-                        t.arrowFunctionExpression(
-                            [t.identifier('e')],
-                            t.blockStatement([
-                                setValueCall
-                            ])
-                        )
-                    )
-                ));
-            }
+                )
+            ));
         }
     }
 
-    function JSXElementVisitor(path) {
-        attrName = this.opts && this.opts.attrName || attrName;
-        path.traverse({
-            JSXAttribute: JSXAttributeVisitor
-        });
+    function getAttr(openingElement, attrName) {
+        const attrs = openingElement.attributes;
+        return attrs.filter(
+            attr => attr.name && attr.name.name && attr.name.name === attrName
+        )[0];
     }
 
     return {
         visitor: {
-            JSXElement: JSXElementVisitor
+            JSXElement: path => {
+                attrName = this.opts && this.opts.attrName || attrName;
+                eventName = this.opts && this.opts.eventName || eventName;
+
+                path.traverse({
+                    JSXElement: JSXElementVisitor
+                });
+            }
         }
     }
 };
