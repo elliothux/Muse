@@ -29,7 +29,7 @@ class App extends Muse {
         <div>
             <h1>Hello!</h1>
             <input
-                type="text"
+                type="password"
                 model={this.state.name}
                 onKeyUp={() => console.log(this.state.name)}
             />

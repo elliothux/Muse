@@ -11,6 +11,23 @@ function setValueAST(target, value) {
     });
 }
 
+function eventHandlerAST(t, setValueCall, eventHandler) {
+    const eventHandlerAST = template(eventHandler ?
+        `e => { SET_VALUE_CALL; EVENT_HANDLER(e) }` :
+        `e => SET_VALUE_CALL;`);
+    const args = { SET_VALUE_CALL: setValueCall };
+    eventHandler && (args.EVENT_HANDLER = eventHandler);
+    return t.jSXExpressionContainer(eventHandlerAST(args).expression);
+}
+
+
+function getAttr(openingElement, attrName) {
+    const attrs = openingElement.attributes;
+    return attrs.filter(
+        attr => attr.name && attr.name.name && attr.name.name === attrName
+    )[0];
+}
+
 
 module.exports = function ({types: t}) {
     let attrName = 'model';
@@ -21,6 +38,14 @@ module.exports = function ({types: t}) {
 
         const nodeType = openingElement.name.name;
         if (!['input', 'textarea'].includes(nodeType)) return;
+
+        if (nodeType === 'input') {
+            let inputType = getAttr(openingElement, 'type');
+            if (!inputType) return;
+            inputType = inputType.value.type === 'JSXExpressionContainer' ?
+                inputType.value.expression.value : inputType.value.value;
+            // console.log(inputType);
+        }
 
         const modelBinding = getAttr(openingElement, attrName);
         if (!modelBinding || !modelBinding.value ||
@@ -33,47 +58,20 @@ module.exports = function ({types: t}) {
         );
 
         const eventHandler = getAttr(openingElement, eventName);
-        if (eventHandler) {
-            const callee = eventHandler.value.expression;
-            eventHandler.value = t.JSXExpressionContainer(
-                t.arrowFunctionExpression(
-                    [t.identifier('e')],
-                    t.blockStatement([
-                        setValueCall,
-                        t.expressionStatement(
-                            t.callExpression(
-                                callee,
-                                [t.identifier('e')]
-                            )
-                        )
-                    ])
-                )
+        if (eventHandler)
+            eventHandler.value = eventHandlerAST(
+                t, setValueCall,
+                eventHandler.value.expression
             );
-        } else {
-            openingElement.attributes.push(t.JSXAttribute(
-                t.jSXIdentifier(eventName),
-                t.JSXExpressionContainer(
-                    t.arrowFunctionExpression(
-                        [t.identifier('e')],
-                        t.blockStatement([
-                            setValueCall
-                        ])
-                    )
-                )
-            ));
-        }
-    }
-
-    function getAttr(openingElement, attrName) {
-        const attrs = openingElement.attributes;
-        return attrs.filter(
-            attr => attr.name && attr.name.name && attr.name.name === attrName
-        )[0];
+        else openingElement.attributes.push(t.JSXAttribute(
+            t.jSXIdentifier(eventName),
+            eventHandlerAST(t, setValueCall)
+        ));
     }
 
     return {
         visitor: {
-            JSXElement: path => {
+            JSXElement: function (path) {
                 attrName = this.opts && this.opts.attrName || attrName;
                 eventName = this.opts && this.opts.eventName || eventName;
 
