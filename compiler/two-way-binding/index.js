@@ -21,7 +21,7 @@ function eventHandlerAST(t, setValueCall, eventHandler) {
 }
 
 function toBoolAST(value) {
-    return template('!!VALUE')({ value })
+    return template('!!VALUE')({ VALUE: value })
 }
 
 
@@ -47,10 +47,27 @@ function handleText(t, modelBinding, openingElement, eventName) {
     ));
 }
 
+function handleCheckbox(t, modelBinding, openingElement, eventName) {
+    modelBinding.name.name = 'checked';
+    const modelBindingExpression = modelBinding.value.expression;
+    const setValueCall = setValueAST(
+        modelBindingExpression,
+        toBoolAST(objValueStr2AST('e.target.checked', t))
+    );
+    modelBinding.value = t.jSXExpressionContainer(toBoolAST(modelBindingExpression).expression);
+    const eventHandler = getAttr(openingElement, eventName);
+    if (eventHandler)
+        eventHandler.value = eventHandlerAST(t, setValueCall, eventHandler);
+    else openingElement.attributes.push(t.JSXAttribute(
+        t.jSXIdentifier(eventName),
+        eventHandlerAST(t, setValueCall)
+    ));
+}
+
 
 module.exports = function ({types: t}) {
     let attrName = 'model';
-    let eventName = 'onKeyUp';
+    let eventName = 'onChange';
 
     function JSXElementVisitor(path) {
         const openingElement = path.node.openingElement;
@@ -72,6 +89,8 @@ module.exports = function ({types: t}) {
 
         if (nodeType === 'textarea' || ['text', 'number', 'password'].includes(inputType))
             return handleText(t, modelBinding, openingElement, eventName);
+        if (inputType === 'checkbox')
+            return handleCheckbox(t, modelBinding, openingElement, eventName);
     }
 
     return {
