@@ -17,6 +17,7 @@
 ### Done
 ✔ First Render using Virtual DOM   
 ✔ Diff and Patch Render  
+✔ Supporting Two-way Data Binding  
 ✔ Observer State  
 ✔ Computed Data  
 ✔ Handle Events  
@@ -27,8 +28,7 @@
 * [ ] Life Cycle Hooks  
 * [ ] Events Encapsulation
 * [ ] Dependence Collection
-* [ ] Supporting Watch
-* [ ] Supporting Two-way Data Binding  
+* [ ] Supporting Watch  
 * [ ] More Efficient Diff Render
 
 
@@ -53,7 +53,8 @@ class App extends Muse {
             'Python',
             'Rust',
             'Scala'
-        ]
+        ],
+        showHello: true
     }
 
     computed = {
@@ -68,15 +69,23 @@ class App extends Muse {
 
     render() { return (
         <div>
-            <h1>Hello!</h1>
+            <h1 if={this.state.showHello}>Hello!</h1>
+            <input
+                type="password"
+                model={this.state.name}
+            />
+            <input
+                type="checkbox"
+                model={this.state.showHello}
+            />
             <p>My name is {this.state.name}.</p>
             <p>
                 I'm {this.state.age} years old
-                <span if={this.computed.isAgeOdd}>and it's an odd number.</span>
+                <span if={this.computed.isAgeOdd}> and it's an odd number.</span>
             </p>
             <p>And I can those programming languages:</p>
             <ul>
-                <li for={(lang, index) in this.state.langs}>{lang}</li>
+                <li for={lang in this.state.langs}>{lang}</li>
             </ul>
             <button onClick={this.handleClick}>Click Me</button>
         </div>
