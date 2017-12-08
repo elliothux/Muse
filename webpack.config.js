@@ -34,7 +34,7 @@ if (isDev) {
         contentBase: './example',
         publicPath: '/assets/',
         disableHostCheck: true,
-        open: false
+        open: true
     };
 }
 
