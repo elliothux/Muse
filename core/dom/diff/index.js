@@ -49,10 +49,11 @@ function diffAttributes(newNode, oldNode) {
 
 
 function diffChildren(newNode, oldNode) {
+    const newChild = newNode.children || [];
+    const oldChild = oldNode.children || [];
     return [...Array(Math.max(
-        newNode.children.length,
-        oldNode.children.length
-    )).keys()].map(i => diff(newNode.children[i], oldNode.children[i]));
+        newChild.length, oldChild.length
+    )).keys()].map(i => diff(newChild[i], oldChild[i]));
 }
 
 

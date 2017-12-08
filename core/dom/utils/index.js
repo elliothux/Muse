@@ -1,5 +1,5 @@
 
-import { eventTypes, eventMap } from './events';
+import { EventType, EventMap } from '../types';
 
 
 
@@ -12,9 +12,9 @@ function setAttributes(target, attributes={}) {
 
 function setAttribute(target, attrName, attrValue) {
     attrName === 'className' && (attrName = 'class');
-    if (eventTypes.includes(attrName))
+    if (EventType.includes(attrName))
         return target.addEventListener(
-            eventMap[attrName],
+            EventMap[attrName],
             attrValue
         );
     target.setAttribute(attrName, attrValue);
@@ -23,9 +23,9 @@ function setAttribute(target, attrName, attrValue) {
 
 function removeAttribute(target, attrName, oldAttrValue) {
     attrName === 'className' && (attrName = 'class');
-    if (eventTypes.includes(attrName))
+    if (EventType.includes(attrName))
         return target.addEventListener(
-            eventMap[attrName],
+            EventMap[attrName],
             oldAttrValue
         );
     target.removeAttribute(attrName);

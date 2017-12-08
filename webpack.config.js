@@ -33,9 +33,8 @@ if (isDev) {
         hot: true,
         contentBase: './example',
         publicPath: '/assets/',
-        port: 2333,
         disableHostCheck: true,
-        open: true
+        open: false
     };
 }
 

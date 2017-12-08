@@ -28,6 +28,10 @@ class App extends Muse {
     render() { return (
         <div>
             <h1>Hello!</h1>
+            <input
+                type="text"
+                model={this.state.name}
+            />
             <p>My name is {this.state.name}.</p>
             <p>
                 I'm {this.state.age} years old
@@ -35,7 +39,7 @@ class App extends Muse {
             </p>
             <p>And I can those programming languages:</p>
             <ul>
-                <li for={(lang, index) in this.state.langs}>{lang}</li>
+                <li for={lang in this.state.langs}>{lang}</li>
             </ul>
             <button onClick={this.handleClick}>Click Me</button>
         </div>

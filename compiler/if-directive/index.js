@@ -1,6 +1,10 @@
 
+const template = require('babel-template');
+
+
 module.exports = function ({types: t}) {
     let attrName = 'if';
+    const buildIfTemplate = template(`CONDITION ? VALUE : null`);
 
     function JSXElementVisitor(path) {
         attrName = this.opts && this.opts.attrName || attrName;

@@ -1,5 +1,5 @@
 
-const eventTypes = [
+const EventType = [
     // Clipboard Events
     'onCopy', 'onCut', 'onPaste',
     // Composition Events
@@ -44,7 +44,7 @@ const eventTypes = [
 ];
 
 
-const eventMap = eventTypes.reduce((eventsMap, event) => {
+const EventMap = EventType.reduce((eventsMap, event) => {
     eventsMap[event] = event
         .replace('on', '')
         .replace(/[A-Z]/, e => e.toLowerCase());
@@ -53,6 +53,6 @@ const eventMap = eventTypes.reduce((eventsMap, event) => {
 
 
 export {
-    eventTypes,
-    eventMap
+    EventType,
+    EventMap
 }

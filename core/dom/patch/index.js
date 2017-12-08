@@ -19,7 +19,6 @@ function patch(parent, patches, index=0) {
         }
         case ChangeType.REMOVE: {
             if (!el) return;
-            console.log(parent);
             parent.removeChild(el);
             break;
         }
