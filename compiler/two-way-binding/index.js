@@ -16,8 +16,12 @@ function eventHandlerAST(t, setValueCall, eventHandler) {
         `e => { SET_VALUE_CALL; EVENT_HANDLER(e) }` :
         `e => SET_VALUE_CALL;`);
     const args = { SET_VALUE_CALL: setValueCall };
-    eventHandler && (args.EVENT_HANDLER = eventHandler);
+    eventHandler && (args.EVENT_HANDLER = eventHandler.value.expression);
     return t.jSXExpressionContainer(eventHandlerAST(args).expression);
+}
+
+function toBoolAST(value) {
+    return template('!!VALUE')({ value })
 }
 
 
@@ -26,6 +30,21 @@ function getAttr(openingElement, attrName) {
     return attrs.filter(
         attr => attr.name && attr.name.name && attr.name.name === attrName
     )[0];
+}
+
+function handleText(t, modelBinding, openingElement, eventName) {
+    modelBinding.name.name = 'value';
+    const setValueCall = setValueAST(
+        modelBinding.value.expression,
+        objValueStr2AST('e.target.value', t)
+    );
+    const eventHandler = getAttr(openingElement, eventName);
+    if (eventHandler)
+        eventHandler.value = eventHandlerAST(t, setValueCall, eventHandler);
+    else openingElement.attributes.push(t.JSXAttribute(
+        t.jSXIdentifier(eventName),
+        eventHandlerAST(t, setValueCall)
+    ));
 }
 
 
@@ -39,34 +58,20 @@ module.exports = function ({types: t}) {
         const nodeType = openingElement.name.name;
         if (!['input', 'textarea'].includes(nodeType)) return;
 
+        let inputType;
         if (nodeType === 'input') {
-            let inputType = getAttr(openingElement, 'type');
+            inputType = getAttr(openingElement, 'type');
             if (!inputType) return;
             inputType = inputType.value.type === 'JSXExpressionContainer' ?
                 inputType.value.expression.value : inputType.value.value;
-            // console.log(inputType);
         }
 
         const modelBinding = getAttr(openingElement, attrName);
         if (!modelBinding || !modelBinding.value ||
             modelBinding.value.type !== 'JSXExpressionContainer') return;
-        modelBinding.name.name = 'value';
 
-        const setValueCall = setValueAST(
-            modelBinding.value.expression,
-            objValueStr2AST('e.target.value', t)
-        );
-
-        const eventHandler = getAttr(openingElement, eventName);
-        if (eventHandler)
-            eventHandler.value = eventHandlerAST(
-                t, setValueCall,
-                eventHandler.value.expression
-            );
-        else openingElement.attributes.push(t.JSXAttribute(
-            t.jSXIdentifier(eventName),
-            eventHandlerAST(t, setValueCall)
-        ));
+        if (nodeType === 'textarea' || ['text', 'number', 'password'].includes(inputType))
+            return handleText(t, modelBinding, openingElement, eventName);
     }
 
     return {

@@ -12,7 +12,8 @@ class App extends Muse {
             'Python',
             'Rust',
             'Scala'
-        ]
+        ],
+        showHello: true
     }
 
     computed = {
@@ -27,12 +28,12 @@ class App extends Muse {
 
     render() { return (
         <div>
-            <h1>Hello!</h1>
+            <h1 if={this.state.showHello}>Hello!</h1>
             <input
                 type="password"
                 model={this.state.name}
-                onKeyUp={() => console.log(this.state.name)}
             />
+            <input type="checkbox" model={this.state.showHello}/>
             <p>My name is {this.state.name}.</p>
             <p>
                 I'm {this.state.age} years old
