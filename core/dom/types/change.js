@@ -6,6 +6,7 @@ const Changed = {
     UPDATE: 'UPDATE',
 
     SET_PROPS: 'SET PROPS',
+    UPDATE_PROPS: 'UPDATE PROPS',
     REMOVE_PROPS: 'REMOVE PROPS',
 
     // TODO

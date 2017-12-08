@@ -159,9 +159,9 @@ let Component = class Component {
         const oldNode = this.node;
         this.node = (0, _utils.flattenNode)(this.render());
         const patches = (0, _dom.diff)(this.node, oldNode);
-        console.log(oldNode);
-        console.log(this.node);
-        console.log(patches);
+        // console.log(oldNode);
+        // console.log(this.node);
+        // console.log(patches);
         (0, _dom.patch)(this.entry, patches);
     }
 };

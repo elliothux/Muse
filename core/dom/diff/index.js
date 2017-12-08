@@ -37,19 +37,19 @@ function diffAttributes(newNode, oldNode) {
         .forEach(attrName => {
             const newAttr = newNode.attributes[attrName];
             const oldAttr = oldNode.attributes[attrName];
-            if (!newAttr)
+            if (newAttr === undefined && oldAttr !== undefined)
                 return patches.push({
                     type: ChangeType.REMOVE_PROPS,
                     oldValue: oldAttr, attrName
                 });
-            if (!oldAttr)
+            if (oldAttr === undefined && newAttr !== undefined)
                 return patches.push({
                     type: ChangeType.SET_PROPS,
                     value: newAttr, attrName
                 });
-            if (oldAttr !== newAttr)
+            if (newAttr !== undefined && oldAttr !== undefined && oldAttr !== newAttr)
                 return patches.push({
-                    type: ChangeType.SET_PROPS,
+                    type: ChangeType.UPDATE_PROPS,
                     value: newAttr, oldValue: oldAttr, attrName
                 });
         });

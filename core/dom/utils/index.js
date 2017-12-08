@@ -17,6 +17,8 @@ function setAttribute(target, attrName, attrValue) {
             EventMap[attrName],
             attrValue
         );
+    if (attrName === 'checked')
+        return target[attrName] = attrValue;
     target.setAttribute(attrName, attrValue);
 }
 

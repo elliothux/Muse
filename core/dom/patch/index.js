@@ -42,19 +42,24 @@ function patch(parent, patches, index=0) {
 function patchAttributes(element, attributes) {
     attributes.forEach(patch => {
         const { type, attrName, value, oldValue } = patch;
-        if (EventType.includes(attrName)) {
-            const eventName = EventMap[attrName];
-            if (type === ChangeType.SET_PROPS) {
-                oldValue && element.removeEventListener(eventName, oldValue);
+        const isEvent = EventType.includes(attrName);
+        const eventName = isEvent && EventMap[attrName];
+
+        // !isEvent && console.log(type, attrName, value, oldValue);
+        if (type === ChangeType.SET_PROPS)
+            return isEvent ?
+                element.addEventListener(eventName, value) :
+                setAttribute(element, attrName, value);
+        if (type === ChangeType.REMOVE_PROPS)
+            return isEvent ?
+                element.removeEventListener(eventName, oldValue) :
+                removeAttribute(element, attrName, value);
+        if (type === ChangeType.UPDATE_PROPS) {
+            if (isEvent) {
+                element.removeEventListener(eventName, oldValue);
                 return element.addEventListener(eventName, value);
             }
-            if (type === ChangeType.REMOVE_PROPS)
-                return element.removeEventListener(eventName, oldValue);
-        } else {
-            if (type === ChangeType.SET_PROPS)
-                return setAttribute(element, attrName, value);
-            else if (type === ChangeType.REMOVE_PROPS)
-                return removeAttribute(element, attrName, value)
+            setAttribute(element, attrName, value, oldValue);
         }
     })
 }
