@@ -24,7 +24,7 @@ function setAttribute(target, attrName, attrValue) {
 function removeAttribute(target, attrName, oldAttrValue) {
     attrName === 'className' && (attrName = 'class');
     if (EventType.includes(attrName))
-        return target.addEventListener(
+        return target.removeEventListener(
             EventMap[attrName],
             oldAttrValue
         );

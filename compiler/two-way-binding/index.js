@@ -3,6 +3,7 @@ const template = require('babel-template');
 const { objValueStr2AST } = require('../utils');
 
 
+
 function setValueAST(target, value) {
     const setValueAST = template(`TARGET = VALUE`);
     return setValueAST({
