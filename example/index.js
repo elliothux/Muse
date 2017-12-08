@@ -36,7 +36,6 @@ class App extends Muse {
             <input
                 type="checkbox"
                 model={this.state.showHello}
-                onChange={() => console.log(this.state.name)}
             />
             <p>My name is {this.state.name}.</p>
             <p>
