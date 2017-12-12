@@ -4,10 +4,10 @@ const { setValueAST, eventHandlerAST, getAttr } = require('../../utils');
 
 
 
-function handleText(t, modelBinding, openingElement, eventName) {
+function handleText(t, modelBinding, openingElement, eventName, attrName='value') {
     if (!modelBinding.name || !modelBinding.name.name)
         throw new Error('Missing name prop at modelBinding.');
-    modelBinding.name.name = 'value';
+    modelBinding.name.name = attrName;
     const setValueCall = setValueAST(
         modelBinding.value.expression,
         objValueStr2AST('e.target.value', t)

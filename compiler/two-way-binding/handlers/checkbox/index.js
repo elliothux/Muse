@@ -1,5 +1,5 @@
 
-const { objValueStr2AST } = require('../../../utils/index');
+const { objValueStr2AST } = require('../../../utils');
 const { setValueAST, eventHandlerAST, toBoolAST, getAttr } = require('../../utils');
 
 

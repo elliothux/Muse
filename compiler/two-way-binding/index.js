@@ -26,9 +26,11 @@ module.exports = function ({types: t}) {
         if (!modelBinding || !modelBinding.value ||
             modelBinding.value.type !== 'JSXExpressionContainer') return;
 
-        if (nodeType === 'textarea' || ['text', 'number', 'password'].includes(inputType))
+        const textTypes = ['text', 'number', 'password', 'color',
+            'date', 'datetime-local', 'email', 'month'];
+        if (nodeType === 'textarea' || textTypes.includes(inputType))
             return handleText(t, modelBinding, openingElement, eventName);
-        if (inputType === 'checkbox')
+        if (['checkbox', 'radio'].includes(inputType))
             return handleCheckbox(t, modelBinding, openingElement, eventName);
     }
 

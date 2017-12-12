@@ -1,6 +1,4 @@
-
-import { Muse } from '../index';
-
+import {Muse} from '../index';
 
 
 class App extends Muse {
@@ -13,7 +11,8 @@ class App extends Muse {
             'Rust',
             'Scala'
         ],
-        showHello: true
+        showHello: true,
+        color: ''
     }
 
     computed = {
@@ -23,34 +22,37 @@ class App extends Muse {
     }
 
     handleClick = () => {
-        this.state.age ++;
+        this.state.age++;
     }
 
-    render() { return (
-        <div>
-            <h1 if={this.state.showHello}>Hello!</h1>
-            <input
-                type="password"
-                model={this.state.name}
-            />
-            <input
-                type="checkbox"
-                model={this.state.showHello}
-            />
-            <p>My name is {this.state.name}.</p>
-            <p>
-                I'm {this.state.age} years old
-                <span if={this.computed.isAgeOdd}> and it's an odd number.</span>
-            </p>
-            <p>And I can those programming languages:</p>
-            <ul>
-                <li for={lang in this.state.langs}>{lang}</li>
-            </ul>
-            <button onClick={this.handleClick}>Click Me</button>
-        </div>
-    )}
+    render() {
+        return (
+            <div>
+                <h1 if={this.state.showHello}>Hello!</h1>
+                <input
+                    type="password"
+                    model={this.state.name}
+                />
+                <input
+                    type="checkbox"
+                    model={this.state.showHello}
+                />
+                <p style={{color: this.state.color}}>{this.state.color}</p>
+                <input type="color" model={this.state.color}/>
+                <p>My name is {this.state.name}.</p>
+                <p>
+                    I'm {this.state.age} years old
+                    <span if={this.computed.isAgeOdd}> and it's an odd number.</span>
+                </p>
+                <p>And I can those programming languages:</p>
+                <ul>
+                    <li for={lang in this.state.langs}>{lang}</li>
+                </ul>
+                <button onClick={this.handleClick}>Click Me</button>
+            </div>
+        )
+    }
 }
-
 
 
 const app = new App();
