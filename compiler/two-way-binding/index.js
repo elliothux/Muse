@@ -1,69 +1,7 @@
 
-const template = require('babel-template');
-const { objValueStr2AST } = require('../utils');
+const { handleText, handleCheckbox } = require('./handlers');
+const { getAttr } = require('./utils');
 
-
-
-function setValueAST(target, value) {
-    const setValueAST = template(`TARGET = VALUE`);
-    return setValueAST({
-        TARGET: target,
-        VALUE: value
-    });
-}
-
-function eventHandlerAST(t, setValueCall, eventHandler) {
-    const eventHandlerAST = template(eventHandler ?
-        `e => { SET_VALUE_CALL; EVENT_HANDLER(e) }` :
-        `e => SET_VALUE_CALL;`);
-    const args = { SET_VALUE_CALL: setValueCall };
-    eventHandler && (args.EVENT_HANDLER = eventHandler.value.expression);
-    return t.jSXExpressionContainer(eventHandlerAST(args).expression);
-}
-
-function toBoolAST(value) {
-    return template('!!VALUE')({ VALUE: value })
-}
-
-
-function getAttr(openingElement, attrName) {
-    const attrs = openingElement.attributes;
-    return attrs.filter(
-        attr => attr.name && attr.name.name && attr.name.name === attrName
-    )[0];
-}
-
-function handleText(t, modelBinding, openingElement, eventName) {
-    modelBinding.name.name = 'value';
-    const setValueCall = setValueAST(
-        modelBinding.value.expression,
-        objValueStr2AST('e.target.value', t)
-    );
-    const eventHandler = getAttr(openingElement, eventName);
-    if (eventHandler)
-        eventHandler.value = eventHandlerAST(t, setValueCall, eventHandler);
-    else openingElement.attributes.push(t.JSXAttribute(
-        t.jSXIdentifier(eventName),
-        eventHandlerAST(t, setValueCall)
-    ));
-}
-
-function handleCheckbox(t, modelBinding, openingElement, eventName) {
-    modelBinding.name.name = 'checked';
-    const modelBindingExpression = modelBinding.value.expression;
-    const setValueCall = setValueAST(
-        modelBindingExpression,
-        toBoolAST(objValueStr2AST('e.target.checked', t))
-    );
-    modelBinding.value = t.jSXExpressionContainer(toBoolAST(modelBindingExpression).expression);
-    const eventHandler = getAttr(openingElement, eventName);
-    if (eventHandler)
-        eventHandler.value = eventHandlerAST(t, setValueCall, eventHandler);
-    else openingElement.attributes.push(t.JSXAttribute(
-        t.jSXIdentifier(eventName),
-        eventHandlerAST(t, setValueCall)
-    ));
-}
 
 
 module.exports = function ({types: t}) {
