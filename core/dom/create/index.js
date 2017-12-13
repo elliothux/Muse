@@ -5,7 +5,7 @@ import { setAttributes } from '../utils';
 
 function createElement(node) {
     /*
-    node: String || {
+    @params node: String || {
         elementName: String
         children: node[]
         attributes: Object
@@ -26,6 +26,10 @@ function appendChildren(target, children) {
         .forEach(::target.appendChild)
 }
 
+
+function createComponentInstance(component) {
+
+}
 
 
 export {

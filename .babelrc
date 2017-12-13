@@ -4,18 +4,7 @@
       "targets": {
         "browsers": ["last 2 Chrome versions"]
       }
-    }]
-  ],
-  "plugins": [
-    "./compiler/if-directive",
-    "./compiler/for-directive",
-    "./compiler/two-way-binding",
-    "./compiler/remove-empty-jsx",
-
-    "transform-object-rest-spread",
-    "transform-function-bind",
-    "transform-decorators-legacy",
-    "transform-class-properties",
-    "transform-jsx"
+    }],
+    "/Users/huqingyang/Desktop/babel-preset-muse"
   ]
 }

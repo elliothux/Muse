@@ -1,4 +1,7 @@
+
 import {Muse} from '../index';
+import ListItem from './components/listItem';
+
 
 
 class App extends Muse {
@@ -46,7 +49,7 @@ class App extends Muse {
                 </p>
                 <p>And I can those programming languages:</p>
                 <ul>
-                    <li for={lang in this.state.langs}>{lang}</li>
+                    <ListItem for={lang in this.state.langs} text={lang}/>
                 </ul>
                 <button onClick={this.handleClick}>Click Me</button>
             </div>
